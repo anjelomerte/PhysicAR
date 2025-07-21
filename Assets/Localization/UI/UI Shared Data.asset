@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UI
+  m_TableCollectionNameGuidString: 72c32e442c2c0d341808f0cc17e3b5ed
+  m_Entries:
+  - m_Id: 153001635840
+    m_Key: StartHeader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 843035947008
+    m_Key: WelcomeText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1690268577792
+    m_Key: PianoText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2167458738176
+    m_Key: InteractablesText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2908369956864
+    m_Key: Gravity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3254290984960
+    m_Key: ButtonsText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3799697305600
+    m_Key: VCTitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3888658493440
+    m_Key: VC1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4208436424704
+    m_Key: VC2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4397649866752
+    m_Key: VC3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4565925343232
+    m_Key: VC4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5417763319808
+    m_Key: ShapeButtonLabel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5469076434944
+    m_Key: ColorButtonLabel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5539393941504
+    m_Key: SpatialButtonLabel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5664052850688
+    m_Key: HandOverlayLabel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88455492259655680
+    m_Key: ManipulationText
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4978758437191811096
+  references:
+    version: 2
+    RefIds:
+    - rid: 4978758437191811096
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1721467551618

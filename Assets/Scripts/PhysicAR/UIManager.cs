@@ -1,0 +1,105 @@
+using MixedReality.Toolkit.SpatialManipulation;
+using TMPro;
+using UnityEngine;
+
+public class UIManager : MonoBehaviour
+{
+    public static UIManager Instance { get; private set; }
+
+    #region UI elements
+
+    [Tooltip("Dialog asking user to start the PhsicAR session")]
+    public GameObject startDialog;
+    [Tooltip("Dialog when finished cleaning all dirty areas")]
+    public GameObject finishAllCleanedDialog;
+    [Tooltip("Dialog when finished due to maximum time reached")]
+    public GameObject finishMaxTimeDialog;
+
+    [Tooltip("Stats panel showing information such as total time, cleaned areas etc.")]
+    public GameObject statsPanel;
+    [Tooltip("Reason for end of game (e.g. cleaned all areas, time limit surpassed)")]
+    public TMP_Text endReasonText;
+    [Tooltip("Number of areas cleaned displayed in stats panel")]
+    public TMP_Text cleanedAreasText;
+    [Tooltip("Times needed to clean each single area in stats panel")]
+    public TMP_Text timesPerArea;
+    [Tooltip("Distances travelled to clean each single area in stats panel")]
+    public TMP_Text distancesPerArea;
+
+    [Tooltip("Handmenu left")]
+    public GameObject handmenuLeft;
+    [Tooltip("Menu canvas on left handmenu. Needs to be disabled and is automatically enabled on detection")]
+    public GameObject handmenuCanvasLeft;
+    [Tooltip("Toggle to start game using image target as anchor")]
+    public GameObject targetBasedStartToggle;
+    [Tooltip("Toggle to start game using surface as anchor")]
+    public GameObject surfaceBasedStartToggle;
+    [Tooltip("Button to confirm session anchor in target-based game setup")]
+    public GameObject confirmRefTargetButton;
+    [Tooltip("Toggle to confirm session anchor in surface-based game setup")]
+    public GameObject confirmRefSurfaceButton;
+    [Tooltip("Reset game toggle on handmenu")]
+    public GameObject resetGameToggle;
+    [Tooltip("Toggle for game area outline")]
+    public GameObject gameAreaToggle;
+    [Tooltip("Toggle which controls visualization of game target (cleaner). On handmenu")]
+    public GameObject gameTargetToggle;
+
+    #endregion
+
+
+    #region Unity lifecycle
+
+    private void Awake()
+    {
+        // Singleton pattern to ensure only one instance of UIManager exists
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this); // Destroy duplicate instances
+        }
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        // Reset UI elements to default state
+        ResetUI();
+    }
+
+    #endregion
+
+
+    #region Methods
+
+    public void ResetUI()
+    {
+        // Set initially active dialog and disable all other
+        handmenuLeft.SetActive(true);
+
+        handmenuCanvasLeft.SetActive(false);
+        targetBasedStartToggle.SetActive(true);
+        surfaceBasedStartToggle.SetActive(true);
+        confirmRefTargetButton.SetActive(false);
+        confirmRefSurfaceButton.SetActive(false);
+        resetGameToggle.SetActive(false);
+        gameAreaToggle.SetActive(false);
+        gameTargetToggle.SetActive(false);
+
+        startDialog.SetActive(false);
+        finishAllCleanedDialog.SetActive(false);
+        finishMaxTimeDialog.SetActive(false);
+        statsPanel.SetActive(false);
+
+        // Enable all spatial solvers by default
+        startDialog.GetComponent<Solver>().enabled = true;
+        finishAllCleanedDialog.GetComponent<Solver>().enabled = true;
+        finishMaxTimeDialog.GetComponent<Solver>().enabled = true;
+        statsPanel.GetComponent<Solver>().enabled = true;
+    }
+
+    #endregion
+}
