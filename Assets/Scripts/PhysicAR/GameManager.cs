@@ -246,6 +246,7 @@ public class GameManager : MonoBehaviour
         ManageTracking.Instance.StartTrackingRefTarget();
 
         // Update UI
+        UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.targetBasedStartToggle.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefTargetButton.SetActive(true);
@@ -269,6 +270,7 @@ public class GameManager : MonoBehaviour
         ManageTracking.Instance.gameAreaVisualizer.SetActive(true);
 
         // Update UI
+        UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.targetBasedStartToggle.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefSurfaceButton.SetActive(true);

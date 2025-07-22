@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
     public GameObject handmenuLeft;
     [Tooltip("Menu canvas on left handmenu. Needs to be disabled and is automatically enabled on detection")]
     public GameObject handmenuCanvasLeft;
+    [Tooltip("Button to launch tutorial")]
+    public GameObject tutorialButton;
     [Tooltip("Toggle to start game using image target as anchor")]
     public GameObject targetBasedStartToggle;
     [Tooltip("Toggle to start game using surface as anchor")]
@@ -84,8 +86,9 @@ public class UIManager : MonoBehaviour
     {
         // Set initially active dialog and disable all other
         handmenuLeft.SetActive(true);
-
         handmenuCanvasLeft.SetActive(false);
+        
+        tutorialButton.SetActive(true);
         targetBasedStartToggle.SetActive(true);
         surfaceBasedStartToggle.SetActive(true);
         confirmRefTargetButton.SetActive(false);
