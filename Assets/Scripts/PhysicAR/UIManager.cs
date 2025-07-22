@@ -8,6 +8,11 @@ public class UIManager : MonoBehaviour
 
     #region UI elements
 
+    [Tooltip("Left hand far ray")]
+    public GameObject leftHandRay;
+    [Tooltip("Right hand far ray")]
+    public GameObject rightHandRay;
+
     [Tooltip("Dialog asking user to start the PhsicAR session")]
     public GameObject startDialog;
     [Tooltip("Dialog when finished cleaning all dirty areas")]

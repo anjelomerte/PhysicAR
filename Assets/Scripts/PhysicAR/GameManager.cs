@@ -289,6 +289,10 @@ public class GameManager : MonoBehaviour
     // Start cleaning game
     public void StartGame()
     {
+        // Disable far rays
+        UIManager.Instance.leftHandRay.SetActive(false);
+        UIManager.Instance.rightHandRay.SetActive(false);
+
         // Start stracking game target
         ManageTracking.Instance.StartTrackingGameTarget();
 
@@ -338,6 +342,10 @@ public class GameManager : MonoBehaviour
     // Stop cleaning game
     public async Task StopGame()
     {
+        // Enable far rays again
+        UIManager.Instance.leftHandRay.SetActive(true);
+        UIManager.Instance.rightHandRay.SetActive(true);
+
         // Stop tracking game target
         ManageTracking.Instance.StopTrackingGameTarget();
 

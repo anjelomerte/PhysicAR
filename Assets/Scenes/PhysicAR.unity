@@ -7719,6 +7719,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d19a8f34c0179814091095c0d2b9fed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftHandRay: {fileID: 5487109878706108344}
+  rightHandRay: {fileID: 5919267472702248074}
   startDialog: {fileID: 164658494}
   finishAllCleanedDialog: {fileID: 1859209408}
   finishMaxTimeDialog: {fileID: 322930681}
