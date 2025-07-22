@@ -37,6 +37,8 @@ public class UIManager : MonoBehaviour
     public GameObject handmenuCanvasLeft;
     [Tooltip("Button to launch tutorial")]
     public GameObject tutorialButton;
+    [Tooltip("Button to return from tutorial back to main scenario")]
+    public GameObject returnFromTutButton;
     [Tooltip("Toggle to start game using image target as anchor")]
     public GameObject targetBasedStartToggle;
     [Tooltip("Toggle to start game using surface as anchor")]
@@ -89,6 +91,7 @@ public class UIManager : MonoBehaviour
         handmenuCanvasLeft.SetActive(false);
         
         tutorialButton.SetActive(true);
+        returnFromTutButton.SetActive(false);
         targetBasedStartToggle.SetActive(true);
         surfaceBasedStartToggle.SetActive(true);
         confirmRefTargetButton.SetActive(false);
