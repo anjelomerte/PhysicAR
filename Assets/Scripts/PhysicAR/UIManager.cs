@@ -13,6 +13,21 @@ public class UIManager : MonoBehaviour
     [Tooltip("Right hand far ray")]
     public GameObject rightHandRay;
 
+    // Tutorial
+    [Tooltip("Starting dialog of tutorial")]
+    public GameObject startDialogTut;
+    [Tooltip("Dialog showcasing how to press buttons")]
+    public GameObject buttonDialogTut;
+    [Tooltip("Dialog showcasing user attached panels")]
+    public GameObject solvedDialogTut;
+    [Tooltip("Dialog showcasing static panels")]
+    public GameObject anchoredDialogTut;
+    [Tooltip("Dialog showcasing in-situ capabilities of HoloLens")]
+    public GameObject insituDialogTut;
+    [Tooltip("Dialog at the end of tutorial")]
+    public GameObject finishedDialogTut;
+
+    // Game
     [Tooltip("Dialog asking user to start the PhsicAR session")]
     public GameObject startDialog;
     [Tooltip("Dialog when finished cleaning all dirty areas")]
@@ -31,6 +46,7 @@ public class UIManager : MonoBehaviour
     [Tooltip("Distances travelled to clean each single area in stats panel")]
     public TMP_Text distancesPerArea;
 
+    // Handmenu
     [Tooltip("Handmenu left")]
     public GameObject handmenuLeft;
     [Tooltip("Menu canvas on left handmenu. Needs to be disabled and is automatically enabled on detection")]
@@ -105,11 +121,20 @@ public class UIManager : MonoBehaviour
         finishMaxTimeDialog.SetActive(false);
         statsPanel.SetActive(false);
 
-        // Enable all spatial solvers by default
+        startDialogTut.SetActive(false);
+        buttonDialogTut.SetActive(false);
+        solvedDialogTut.SetActive(false);
+        anchoredDialogTut.SetActive(false);
+        insituDialogTut.SetActive(false);
+        finishedDialogTut.SetActive(false);
+
+        // Enable all spatial solvers by default (because some panels disable solvers)
         startDialog.GetComponent<Solver>().enabled = true;
         finishAllCleanedDialog.GetComponent<Solver>().enabled = true;
         finishMaxTimeDialog.GetComponent<Solver>().enabled = true;
         statsPanel.GetComponent<Solver>().enabled = true;
+        anchoredDialogTut.GetComponent<Solver>().enabled = true;
+        insituDialogTut.GetComponent<Solver>().enabled = true;
     }
 
     #endregion
