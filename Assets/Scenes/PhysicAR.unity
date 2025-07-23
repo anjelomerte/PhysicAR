@@ -65050,7 +65050,7 @@ MonoBehaviour:
   baseReticle: {fileID: 3356917568965477578}
   rayInteractor: {fileID: 8831568455567135511}
   proximityLight: {fileID: 8061948433235770337}
-  visibilitySettings: 0
+  visibilitySettings: 1
 --- !u!114 &4704058406464522151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67796,7 +67796,7 @@ MonoBehaviour:
   baseReticle: {fileID: 3500842296563591160}
   rayInteractor: {fileID: 7247241282429300773}
   proximityLight: {fileID: 8206293379968506067}
-  visibilitySettings: 0
+  visibilitySettings: 1
 --- !u!114 &6844700260762535878
 MonoBehaviour:
   m_ObjectHideFlags: 0
