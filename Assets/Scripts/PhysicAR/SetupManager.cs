@@ -8,10 +8,12 @@ public class SetupManager : MonoBehaviour
 {
     #region Properties
 
-    [Tooltip("Visible wireframe mesh prefab")]
-    public MeshFilter wireframeMeshPrefab;
-    [Tooltip("Invisible mesh prefab (without occlusion)")]
-    public MeshFilter transparentMeshPrefab;
+    [Tooltip("Visible wireframe mesh filter")]
+    public MeshFilter wireframeMesh;
+    [Tooltip("Visible wireframes mesh material")]
+    public Material wireframeMeshMat;
+    [Tooltip("Invisible mesh filter (no occlusion)")]
+    public MeshFilter transparentMesh;
 
     #endregion
 
@@ -38,33 +40,38 @@ public class SetupManager : MonoBehaviour
     // Toggle meshing during setup to generate initial mesh to use during tutorial
     public void ToggleMesh()
     {
-        // Assign visible wireframe mesh prefab
-        GameManager.Instance.meshManager.meshPrefab = wireframeMeshPrefab;
+        ARMeshManager mm = GameManager.Instance.meshManager;
 
-        // Change material of every currently existing rendered mesh to wireframe material
-        foreach (var mesh in GameManager.Instance.meshManager.meshes)
-        {
-            mesh.GetComponent<MeshRenderer>().material = wireframeMeshPrefab.gameObject.GetComponent<MeshRenderer>().material;
-        }
+        // Assign visible wireframe mesh prefab
+        mm.meshPrefab = wireframeMesh;
 
         // Enable meshing
-        GameManager.Instance.meshManager.enabled = true;
+        mm.enabled = true;
+
+        // Change material of every currently existing rendered mesh to wireframe material and enable renderer
+        foreach (var mesh in mm.meshes)
+        {
+            mesh.GetComponent<MeshRenderer>().material = wireframeMeshMat;
+            mesh.GetComponent<MeshRenderer>().enabled = true;
+        }
     }
 
     // Untoggle meshing again during setup
     public void UntoggleMesh()
     {
-        // Assign invisble wireframe mesh prefab
-        GameManager.Instance.meshManager.meshPrefab = transparentMeshPrefab;
+        ARMeshManager mm = GameManager.Instance.meshManager;
 
-        // Change material of every currently existing rendered mesh to wireframe material
-        foreach (var mesh in GameManager.Instance.meshManager.meshes)
+        // Assign invisble wireframe mesh prefab
+        mm.meshPrefab = transparentMesh;
+
+        // Disable renderer components
+        foreach (var mesh in mm.meshes)
         {
-            mesh.GetComponent<MeshRenderer>().material = transparentMeshPrefab.gameObject.GetComponent<MeshRenderer>().material;
+            mesh.GetComponent<MeshRenderer>().enabled = false;
         }
 
         // Disable meshing
-        GameManager.Instance.meshManager.enabled = false;
+        mm.enabled = false;
     }
 
 #endregion

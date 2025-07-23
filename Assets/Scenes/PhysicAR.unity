@@ -3464,9 +3464,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ac64601b056db468c8e25c957a1973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wireframeMeshPrefab: {fileID: 5231468805595906662, guid: 7ab7f63bcdbce614bb7f813251199417,
+  wireframeMesh: {fileID: 5231468805595906662, guid: 7ab7f63bcdbce614bb7f813251199417,
     type: 3}
-  transparentMeshPrefab: {fileID: 5231468805595906662, guid: 9441e37efe263b5449a2b8fccfeeb4a5,
+  wireframeMeshMat: {fileID: 0}
+  transparentMesh: {fileID: 5231468805595906662, guid: 9441e37efe263b5449a2b8fccfeeb4a5,
     type: 3}
 --- !u!1 &147870505
 GameObject:
@@ -5049,7 +5050,7 @@ MonoBehaviour:
   lifetime: 0
   referenceDirection: 1
   minDistance: 0.5
-  maxDistance: 1
+  maxDistance: 0.9
   minViewDegrees: 0
   maxViewDegrees: 20
   aspectV: 1
@@ -18751,7 +18752,7 @@ MonoBehaviour:
   lifetime: 0
   referenceDirection: 1
   minDistance: 0.5
-  maxDistance: 1
+  maxDistance: 0.9
   minViewDegrees: 0
   maxViewDegrees: 20
   aspectV: 1
@@ -44598,7 +44599,7 @@ MonoBehaviour:
   lifetime: 0
   referenceDirection: 1
   minDistance: 0.5
-  maxDistance: 1
+  maxDistance: 0.9
   minViewDegrees: 0
   maxViewDegrees: 20
   aspectV: 1
@@ -56798,7 +56799,7 @@ MonoBehaviour:
   lifetime: 0.2
   referenceDirection: 1
   minDistance: 0.5
-  maxDistance: 1
+  maxDistance: 0.9
   minViewDegrees: 0
   maxViewDegrees: 20
   aspectV: 1
@@ -57173,7 +57174,7 @@ MonoBehaviour:
   lifetime: 0
   referenceDirection: 1
   minDistance: 0.5
-  maxDistance: 1
+  maxDistance: 0.9
   minViewDegrees: 0
   maxViewDegrees: 20
   aspectV: 1
@@ -61790,7 +61791,7 @@ MonoBehaviour:
   lifetime: 0.2
   referenceDirection: 1
   minDistance: 0.5
-  maxDistance: 1
+  maxDistance: 0.9
   minViewDegrees: 0
   maxViewDegrees: 20
   aspectV: 1
