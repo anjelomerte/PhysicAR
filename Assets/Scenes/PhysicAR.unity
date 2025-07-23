@@ -5055,7 +5055,7 @@ MonoBehaviour:
   aspectV: 1
   ignoreAngleClamp: 0
   ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
+  useFixedVerticalPosition: 1
   fixedVerticalPosition: -0.1
   orientToReferenceDirection: 0
 --- !u!114 &227263609
@@ -18757,7 +18757,7 @@ MonoBehaviour:
   aspectV: 1
   ignoreAngleClamp: 0
   ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
+  useFixedVerticalPosition: 1
   fixedVerticalPosition: -0.1
   orientToReferenceDirection: 0
 --- !u!114 &782921337
@@ -31840,7 +31840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fontIcons: {fileID: 11400000, guid: b490f983baa13694cb7e5ecc6bd0dae3, type: 2}
-  currentIconName: Icon 127
+  currentIconName: Icon 9
   textMeshProComponent: {fileID: 1160770680}
   iconFontAsset: {fileID: 0}
 --- !u!114 &1160770680
@@ -31863,7 +31863,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uF639"
+  m_text: "\uE877"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b0d0ee11ff70b04d901a29b519cbaa0, type: 2}
   m_sharedMaterial: {fileID: 5762245003366665926, guid: 9b0d0ee11ff70b04d901a29b519cbaa0,
@@ -33920,7 +33920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fontIcons: {fileID: 11400000, guid: b490f983baa13694cb7e5ecc6bd0dae3, type: 2}
-  currentIconName: Icon 127
+  currentIconName: Icon 11
   textMeshProComponent: {fileID: 1225903360}
   iconFontAsset: {fileID: 0}
 --- !u!114 &1225903360
@@ -33943,7 +33943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uF639"
+  m_text: "\uE87D"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b0d0ee11ff70b04d901a29b519cbaa0, type: 2}
   m_sharedMaterial: {fileID: 5762245003366665926, guid: 9b0d0ee11ff70b04d901a29b519cbaa0,
@@ -38845,6 +38845,19 @@ MonoBehaviour:
   <OnClicked>k__BackingField:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 717385452}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 50b629cc6a6feb0458f4b22b5c96eb91,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 146644755}
         m_TargetAssemblyTypeName: SetupManager, Assembly-CSharp
         m_MethodName: TriggerEyeCalibration
@@ -39144,7 +39157,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tutorial
+  m_text: Mesh
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 533bdd8d5c92b52448ee2ecf7bd828a4, type: 2}
   m_sharedMaterial: {fileID: -1005824763306460071, guid: 533bdd8d5c92b52448ee2ecf7bd828a4,
@@ -44591,7 +44604,7 @@ MonoBehaviour:
   aspectV: 1
   ignoreAngleClamp: 0
   ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
+  useFixedVerticalPosition: 1
   fixedVerticalPosition: -0.1
   orientToReferenceDirection: 0
 --- !u!114 &1542457495
@@ -49023,7 +49036,20 @@ MonoBehaviour:
           m_CallState: 2
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 717385452}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 50b629cc6a6feb0458f4b22b5c96eb91,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -56764,8 +56790,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateLinkedTransform: 0
-  moveLerpTime: 0.1
-  rotateLerpTime: 0.1
+  moveLerpTime: 0
+  rotateLerpTime: 0
   scaleLerpTime: 0
   maintainScaleOnInitialization: 1
   smoothing: 1
@@ -56778,7 +56804,7 @@ MonoBehaviour:
   aspectV: 1
   ignoreAngleClamp: 0
   ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
+  useFixedVerticalPosition: 1
   fixedVerticalPosition: -0.1
   orientToReferenceDirection: 0
 --- !u!114 &1842182549
@@ -57153,7 +57179,7 @@ MonoBehaviour:
   aspectV: 1
   ignoreAngleClamp: 0
   ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
+  useFixedVerticalPosition: 1
   fixedVerticalPosition: -0.1
   orientToReferenceDirection: 0
 --- !u!114 &1847479832
@@ -58558,7 +58584,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tutorial
+  m_text: Kalibrierung
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 533bdd8d5c92b52448ee2ecf7bd828a4, type: 2}
   m_sharedMaterial: {fileID: -1005824763306460071, guid: 533bdd8d5c92b52448ee2ecf7bd828a4,
@@ -61756,8 +61782,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateLinkedTransform: 0
-  moveLerpTime: 0.1
-  rotateLerpTime: 0.1
+  moveLerpTime: 0
+  rotateLerpTime: 0
   scaleLerpTime: 0
   maintainScaleOnInitialization: 1
   smoothing: 1
@@ -61770,7 +61796,7 @@ MonoBehaviour:
   aspectV: 1
   ignoreAngleClamp: 0
   ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
+  useFixedVerticalPosition: 1
   fixedVerticalPosition: -0.1
   orientToReferenceDirection: 0
 --- !u!114 &2019112731
@@ -78711,12 +78737,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1387952940}
-  - {fileID: 1652284136}
   - {fileID: 1412430570}
   - {fileID: 1787780592}
   - {fileID: 491315120}
   - {fileID: 1766322220}
+  - {fileID: 1652284136}
+  - {fileID: 1387952940}
   - {fileID: 1210698887}
   - {fileID: 1089943996}
   - {fileID: 8524890690714318306}

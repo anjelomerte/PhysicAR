@@ -113,8 +113,8 @@ public class UIManager : MonoBehaviour
         handmenuLeft.SetActive(true);
         handmenuCanvasLeft.SetActive(false);
         
-        triggerEyeCalibButton.SetActive(false);
-        initMeshToggle.SetActive(false);
+        triggerEyeCalibButton.SetActive(true);
+        initMeshToggle.SetActive(true);
         tutorialButton.SetActive(true);
         returnFromTutButton.SetActive(false);
         targetBasedStartToggle.SetActive(true);

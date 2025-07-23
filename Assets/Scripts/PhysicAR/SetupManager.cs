@@ -2,6 +2,7 @@
 using System;
 #endif
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 public class SetupManager : MonoBehaviour
 {
@@ -25,10 +26,10 @@ public class SetupManager : MonoBehaviour
     // Trigger eye calibration during setup/before tutorial or game
     public void TriggerEyeCalibration()
     {
-        #if ENABLE_WINMD_SUPPORT
+#if ENABLE_WINMD_SUPPORT
         UnityEngine.WSA.Application.InvokeOnUIThread(async () =>
         {
-            bool result = await Windows.System.Launcher.LaunchUriAsync(new System.Uri("ms-hololenssetup://EyeTracking"));
+            bool result = await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-hololenssetup://EyeTracking"));
 
         }, false);
 #endif
@@ -40,6 +41,12 @@ public class SetupManager : MonoBehaviour
         // Assign visible wireframe mesh prefab
         GameManager.Instance.meshManager.meshPrefab = wireframeMeshPrefab;
 
+        // Change material of every currently existing rendered mesh to wireframe material
+        foreach (var mesh in GameManager.Instance.meshManager.meshes)
+        {
+            mesh.GetComponent<MeshRenderer>().material = wireframeMeshPrefab.gameObject.GetComponent<MeshRenderer>().material;
+        }
+
         // Enable meshing
         GameManager.Instance.meshManager.enabled = true;
     }
@@ -49,6 +56,12 @@ public class SetupManager : MonoBehaviour
     {
         // Assign invisble wireframe mesh prefab
         GameManager.Instance.meshManager.meshPrefab = transparentMeshPrefab;
+
+        // Change material of every currently existing rendered mesh to wireframe material
+        foreach (var mesh in GameManager.Instance.meshManager.meshes)
+        {
+            mesh.GetComponent<MeshRenderer>().material = transparentMeshPrefab.gameObject.GetComponent<MeshRenderer>().material;
+        }
 
         // Disable meshing
         GameManager.Instance.meshManager.enabled = false;

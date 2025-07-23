@@ -122,8 +122,8 @@ public class TutorialManager : MonoBehaviour
     public void GoHome()
     {
         // Update UI
-        UIManager.Instance.initMeshToggle.SetActive(false);
-        UIManager.Instance.triggerEyeCalibButton.SetActive(false);
+        UIManager.Instance.initMeshToggle.SetActive(true);
+        UIManager.Instance.triggerEyeCalibButton.SetActive(true);
         UIManager.Instance.tutorialButton.SetActive(true);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(true);
         UIManager.Instance.targetBasedStartToggle.SetActive(true);
