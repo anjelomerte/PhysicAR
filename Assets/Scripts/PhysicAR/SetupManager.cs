@@ -1,3 +1,6 @@
+#if ENABLE_WINMD_SUPPORT
+using System;
+#endif
 using UnityEngine;
 
 public class SetupManager : MonoBehaviour
@@ -22,7 +25,13 @@ public class SetupManager : MonoBehaviour
     // Trigger eye calibration during setup/before tutorial or game
     public void TriggerEyeCalibration()
     {
+        #if ENABLE_WINMD_SUPPORT
+        UnityEngine.WSA.Application.InvokeOnUIThread(async () =>
+        {
+            bool result = await Windows.System.Launcher.LaunchUriAsync(new System.Uri("ms-hololenssetup://EyeTracking"));
 
+        }, false);
+#endif
     }
 
     // Toggle meshing during setup to generate initial mesh to use during tutorial
@@ -45,5 +54,5 @@ public class SetupManager : MonoBehaviour
         GameManager.Instance.meshManager.enabled = false;
     }
 
-    #endregion
+#endregion
 }

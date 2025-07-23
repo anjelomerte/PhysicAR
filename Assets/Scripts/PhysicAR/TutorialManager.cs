@@ -122,10 +122,13 @@ public class TutorialManager : MonoBehaviour
     public void GoHome()
     {
         // Update UI
+        UIManager.Instance.initMeshToggle.SetActive(false);
+        UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(true);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(true);
         UIManager.Instance.targetBasedStartToggle.SetActive(true);
         UIManager.Instance.returnFromTutButton.SetActive(false);
+        UIManager.Instance.initDialog.SetActive(true);
 
         // Disable and reset all tutorial-related stuff/UI
         UIManager.Instance.startDialogTut.SetActive(false);
