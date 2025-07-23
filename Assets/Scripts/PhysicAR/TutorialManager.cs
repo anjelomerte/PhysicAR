@@ -28,9 +28,12 @@ public class TutorialManager : MonoBehaviour
     public void InitializeTutorial()
     {
         // Update UI
+        UIManager.Instance.initMeshToggle.SetActive(false);
+        UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.targetBasedStartToggle.SetActive(false);
+        UIManager.Instance.initDialog.SetActive(false);
 
         UIManager.Instance.returnFromTutButton.SetActive(true);
         UIManager.Instance.startDialogTut.SetActive(true);
@@ -96,6 +99,9 @@ public class TutorialManager : MonoBehaviour
             UIManager.Instance.finishedDialogTut.SetActive(false);
         }
         UIManager.Instance.insituDialogTut.SetActive(true);
+
+        // Enable meshing again
+        GameManager.Instance.meshManager.enabled = true;
     }
 
     // Callback for successful completion of in-situ tutorial
@@ -107,6 +113,9 @@ public class TutorialManager : MonoBehaviour
 
         // Flag as completed (at least once)
         finishedTutorial = true;
+
+        // Disable meshing again
+        GameManager.Instance.meshManager.enabled = false;
     }
 
     // Callback to go back to init scenario
@@ -116,6 +125,7 @@ public class TutorialManager : MonoBehaviour
         UIManager.Instance.tutorialButton.SetActive(true);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(true);
         UIManager.Instance.targetBasedStartToggle.SetActive(true);
+        UIManager.Instance.returnFromTutButton.SetActive(false);
 
         // Disable and reset all tutorial-related stuff/UI
         UIManager.Instance.startDialogTut.SetActive(false);

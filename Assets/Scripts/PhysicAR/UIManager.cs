@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour
     [Tooltip("Right hand far ray")]
     public GameObject rightHandRay;
 
+    [Tooltip("Initial setup dialog displayed to user")]
+    public GameObject initDialog;
+
     // Tutorial
     [Tooltip("Starting dialog of tutorial")]
     public GameObject startDialogTut;
@@ -51,6 +54,10 @@ public class UIManager : MonoBehaviour
     public GameObject handmenuLeft;
     [Tooltip("Menu canvas on left handmenu. Needs to be disabled and is automatically enabled on detection")]
     public GameObject handmenuCanvasLeft;
+    [Tooltip("Button for triggering eye calibration")]
+    public GameObject triggerEyeCalibButton;
+    [Tooltip("Toggle for initial environmental meshing")]
+    public GameObject initMeshToggle;
     [Tooltip("Button to launch tutorial")]
     public GameObject tutorialButton;
     [Tooltip("Button to return from tutorial back to main scenario")]
@@ -106,6 +113,8 @@ public class UIManager : MonoBehaviour
         handmenuLeft.SetActive(true);
         handmenuCanvasLeft.SetActive(false);
         
+        triggerEyeCalibButton.SetActive(false);
+        initMeshToggle.SetActive(false);
         tutorialButton.SetActive(true);
         returnFromTutButton.SetActive(false);
         targetBasedStartToggle.SetActive(true);
@@ -116,6 +125,7 @@ public class UIManager : MonoBehaviour
         gameAreaToggle.SetActive(false);
         gameTargetToggle.SetActive(false);
 
+        initDialog.SetActive(true);
         startDialog.SetActive(false);
         finishAllCleanedDialog.SetActive(false);
         finishMaxTimeDialog.SetActive(false);

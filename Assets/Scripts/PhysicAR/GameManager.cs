@@ -246,10 +246,13 @@ public class GameManager : MonoBehaviour
         ManageTracking.Instance.StartTrackingRefTarget();
 
         // Update UI
+        UIManager.Instance.initMeshToggle.SetActive(false);
+        UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.targetBasedStartToggle.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefTargetButton.SetActive(true);
+        UIManager.Instance.initDialog.SetActive(false);
     }
 
     // Set up game using surface as anchor
@@ -270,10 +273,13 @@ public class GameManager : MonoBehaviour
         ManageTracking.Instance.gameAreaVisualizer.SetActive(true);
 
         // Update UI
+        UIManager.Instance.initMeshToggle.SetActive(false);
+        UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.targetBasedStartToggle.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefSurfaceButton.SetActive(true);
+        UIManager.Instance.initDialog.SetActive(false);
     }
 
     public void CompleteSurfaceBasedSetup()
