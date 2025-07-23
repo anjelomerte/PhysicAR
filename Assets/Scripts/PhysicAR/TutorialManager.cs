@@ -48,6 +48,11 @@ public class TutorialManager : MonoBehaviour
     {
         // Update UI
         UIManager.Instance.startDialogTut.SetActive(false);
+        // Check if returning after already having finished tutorial
+        if (finishedTutorial)
+        {
+            UIManager.Instance.finishedDialogTut.SetActive(false);
+        }
         UIManager.Instance.buttonDialogTut.SetActive(true);
 
         // Disable meshing again. Existing meshes persist
@@ -59,17 +64,12 @@ public class TutorialManager : MonoBehaviour
     {
         // Update UI
         UIManager.Instance.buttonDialogTut.SetActive(false);
-        UIManager.Instance.finishedDialogTut.SetActive(false);
-
         // Check if returning after already having finished tutorial
         if (finishedTutorial)
         {
-            UIManager.Instance.finishedDialogTut.SetActive(true);
+            UIManager.Instance.finishedDialogTut.SetActive(false);
         }
-        else
-        {
-            UIManager.Instance.solvedDialogTut.SetActive(true);
-        }
+        UIManager.Instance.solvedDialogTut.SetActive(true);
     }
 
     // Callback for successful completion of solved user panel tutorial
@@ -77,17 +77,12 @@ public class TutorialManager : MonoBehaviour
     {
         // Update UI
         UIManager.Instance.solvedDialogTut.SetActive(false);
-        UIManager.Instance.finishedDialogTut.SetActive(false);
-
         // Check if returning after already having finished tutorial
         if (finishedTutorial)
         {
-            UIManager.Instance.finishedDialogTut.SetActive(true);
+            UIManager.Instance.finishedDialogTut.SetActive(false);
         }
-        else
-        {
-            UIManager.Instance.anchoredDialogTut.SetActive(true);
-        }
+        UIManager.Instance.anchoredDialogTut.SetActive(true);
     }
 
     // Callback for successful completion of anchored user panel tutorial
@@ -95,17 +90,12 @@ public class TutorialManager : MonoBehaviour
     {
         // Update UI
         UIManager.Instance.anchoredDialogTut.SetActive(false);
-        UIManager.Instance.finishedDialogTut.SetActive(false);
-
         // Check if returning after already having finished tutorial
         if (finishedTutorial)
         {
-            UIManager.Instance.finishedDialogTut.SetActive(true);
+            UIManager.Instance.finishedDialogTut.SetActive(false);
         }
-        else
-        {
-            UIManager.Instance.insituDialogTut.SetActive(true);
-        }
+        UIManager.Instance.insituDialogTut.SetActive(true);
     }
 
     // Callback for successful completion of in-situ tutorial
@@ -133,10 +123,14 @@ public class TutorialManager : MonoBehaviour
         UIManager.Instance.solvedDialogTut.SetActive(false);
         UIManager.Instance.anchoredDialogTut.SetActive(false);
         UIManager.Instance.insituDialogTut.SetActive(false);
+        UIManager.Instance.finishedDialogTut.SetActive(false);
 
         // Re-enable far rays
         UIManager.Instance.leftHandRay.SetActive(true);
         UIManager.Instance.rightHandRay.SetActive(true);
+
+        // Signal completion of tutorial
+        finishedTutorial = false;
     }
 
     // Actionize cubes for in-situ tutorial
