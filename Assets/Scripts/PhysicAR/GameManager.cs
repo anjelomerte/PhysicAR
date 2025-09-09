@@ -375,6 +375,9 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.resetGameToggle.SetActive(false);
         UIManager.Instance.gameTargetToggle.SetActive(false);
 
+        // Write sampled information to disk using current time in name
+        await WriteInformationToDisk($"Logs_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
+
         // Reset vars
         cleanedTiles = 0;
         CleanedTiles = 0;
@@ -382,9 +385,6 @@ public class GameManager : MonoBehaviour
         areaBeingCleaned = 1;
         timeStamp = 0f;
         informationFrames = new();
-
-        // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Logs_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
     }
 
     // Reset game
