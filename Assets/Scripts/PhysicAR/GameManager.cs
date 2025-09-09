@@ -337,19 +337,22 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(FadeInDirtyArea(fadeDuration));
         dirtyArea.SetActive(true);
 
-        // Flag game as started
-        gameStarted = true;
-
         // Reset previous data
         singleAreaDistance = 0f;
         singleAreaTime = 0f;
         singleAreaDistances.Clear();
         singleAreaTimes.Clear();
+
+        // Flag game as started
+        gameStarted = true;
     }
 
     // Stop cleaning game
     public async Task StopGame()
     {
+        // Flag as stopped (terminates information sampling in Update)
+        gameStarted = false;
+
         // Enable far rays again
         UIManager.Instance.leftHandRay.SetActive(true);
         UIManager.Instance.rightHandRay.SetActive(true);
@@ -372,15 +375,13 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.resetGameToggle.SetActive(false);
         UIManager.Instance.gameTargetToggle.SetActive(false);
 
-        // Reset counters
+        // Reset vars
         cleanedTiles = 0;
         CleanedTiles = 0;
         currentDirtyAreaIndex = 0;
         areaBeingCleaned = 1;
-
-        // Flag as stopped
-        gameStarted = false;
         timeStamp = 0f;
+        informationFrames = new();
 
         // Write sampled information to disk using current time in name
         await WriteInformationToDisk($"Logs_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
@@ -474,7 +475,7 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(cleanedAllAreasClip);
 
         // Update UI
-        UIManager.Instance.endReasonText.text = "Alle Fl�chen gereinigt";
+        UIManager.Instance.endReasonText.text = "Alle Flächen gereinigt";
         UIManager.Instance.finishAllCleanedDialog.SetActive(true);
         UIManager.Instance.statsPanel.SetActive(true);
     }
@@ -516,7 +517,7 @@ public class GameManager : MonoBehaviour
         // Determine area id
         areaID = (cleaning) ? areaBeingCleaned : 0;
 
-        // Tracking state of cleaner set by ManageTracking
+        // Tracking state of cleaner is set in/by ManageTracking
 
         // Determine cleaner position
         cleanerPos = ManageTracking.Instance.gameImageTarget.transform.position;

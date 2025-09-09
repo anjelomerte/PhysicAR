@@ -7014,6 +7014,7 @@ GameObject:
   - component: {fileID: 322930686}
   - component: {fileID: 322930684}
   - component: {fileID: 322930683}
+  - component: {fileID: 322930687}
   m_Layer: 5
   m_Name: FinishedDueToTimeDialog
   m_TagString: Untagged
@@ -7058,7 +7059,7 @@ MonoBehaviour:
   lifetime: 0
   referenceDirection: 1
   minDistance: 0.6
-  maxDistance: 0.6
+  maxDistance: 1
   minViewDegrees: 0
   maxViewDegrees: 10
   aspectV: 1
@@ -7110,6 +7111,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &322930687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322930681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c419ba97b51d74d931679a18a40799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 2
 --- !u!1 &324890948
 GameObject:
   m_ObjectHideFlags: 0
@@ -57352,6 +57366,7 @@ GameObject:
   - component: {fileID: 1859209410}
   - component: {fileID: 1859209413}
   - component: {fileID: 1859209412}
+  - component: {fileID: 1859209414}
   m_Layer: 5
   m_Name: FinishedCleaningAllDialog
   m_TagString: Untagged
@@ -57418,7 +57433,7 @@ MonoBehaviour:
   lifetime: 0
   referenceDirection: 1
   minDistance: 0.6
-  maxDistance: 0.6
+  maxDistance: 1
   minViewDegrees: 0
   maxViewDegrees: 10
   aspectV: 1
@@ -57448,6 +57463,19 @@ MonoBehaviour:
   additionalOffset: {x: 0, y: 0, z: 0}
   additionalRotation: {x: 0, y: 0, z: 0}
   updateSolvers: 1
+--- !u!114 &1859209414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859209408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c419ba97b51d74d931679a18a40799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 2
 --- !u!1 &1860449829
 GameObject:
   m_ObjectHideFlags: 0
@@ -78842,6 +78870,7 @@ GameObject:
   - component: {fileID: 8886232593758245725}
   - component: {fileID: 8886232593758245728}
   - component: {fileID: 8886232593758245727}
+  - component: {fileID: 8886232593758245729}
   m_Layer: 5
   m_Name: StatsPanel
   m_TagString: Untagged
@@ -78910,7 +78939,7 @@ MonoBehaviour:
   lifetime: 0
   referenceDirection: 1
   minDistance: 0.6
-  maxDistance: 0.6
+  maxDistance: 1
   minViewDegrees: 0
   maxViewDegrees: 10
   aspectV: 1
@@ -78940,6 +78969,19 @@ MonoBehaviour:
   additionalOffset: {x: 0, y: 0, z: 0}
   additionalRotation: {x: 0, y: 0, z: 0}
   updateSolvers: 1
+--- !u!114 &8886232593758245729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8886232593758245724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c419ba97b51d74d931679a18a40799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 2
 --- !u!114 &8917949269590832261
 MonoBehaviour:
   m_ObjectHideFlags: 0

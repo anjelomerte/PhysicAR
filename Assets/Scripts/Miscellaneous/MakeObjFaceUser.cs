@@ -13,6 +13,9 @@ public class MakeObjFaceUser : MonoBehaviour
     [SerializeField, Tooltip("Update continuously to face user all the time")]
     private bool continuous = false;
 
+
+    [Tooltip("Cached main camera")]
+    private Camera mainCam = null;
     #endregion
 
 
@@ -21,7 +24,16 @@ public class MakeObjFaceUser : MonoBehaviour
     // Face user on enabling
     private void OnEnable()
     {
+        // Cache main camera
+        mainCam = Camera.main;
+
         FaceUser();
+
+        // Disable component immediately if not continuous
+        if (!continuous)
+        {
+            enabled = false;
+        }
     }
 
     // Face user constantly
@@ -45,16 +57,16 @@ public class MakeObjFaceUser : MonoBehaviour
         if (yRotOnly)
         {
             // Make object face user along shortest path to user plane
-            Transform targetTransform = Camera.main.transform;
-            targetTransform.position = new Vector3(targetTransform.position.x, transform.position.y, targetTransform.position.z);
+            Vector3 targetPos = mainCam.transform.position;
+            targetPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             //targetTransform.rotation = Quaternion.LookRotation(2 * transform.position - targetTransform.position);
 
-            transform.LookAt(2 * transform.position - targetTransform.position);
+            transform.LookAt(2 * transform.position - targetPos);
         }
         else
         {
             // Make object face user directly
-            transform.LookAt(Camera.main.transform);
+            transform.LookAt(mainCam.transform);
             transform.Rotate(Vector3.up, 180f);
         }
     }
