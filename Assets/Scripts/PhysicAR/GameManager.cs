@@ -38,9 +38,9 @@ public class GameManager : MonoBehaviour
     [Tooltip("List of locations (parent objects) for dirty areas")]
     public List<Transform> dirtyAreaLocations;
     [Tooltip("Array of dirty area indices in the order they should be cleaned")]
-    public int[] dirtyAreaOrder2x2 = new int[] { 0, 3, 1, 2 };
+    public int[] dirtyAreaOrder2x2;
     [Tooltip("Array of dirty area indices in the order they should be cleaned")]
-    public int[] dirtyAreaOrder3x4 = new int[] { 4, 1, 11, 6, 5, 9, 8, 0, 2, 3, 7, 10 };
+    public int[] dirtyAreaOrder3x4;
     [Tooltip("Current dirty area index")]
     private int currentDirtyAreaIndex = 0;
 
