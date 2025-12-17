@@ -49624,7 +49624,7 @@ MonoBehaviour:
   <VoiceRequiresFocus>k__BackingField: 1
   <SelectRequiresHover>k__BackingField: 0
   <IsToggled>k__BackingField:
-    active: 1
+    active: 0
     onEntered:
       m_PersistentCalls:
         m_Calls:
@@ -83026,7 +83026,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uE830"
+  m_text: "\uF481"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b0d0ee11ff70b04d901a29b519cbaa0, type: 2}
   m_sharedMaterial: {fileID: 5762245003366665926, guid: 9b0d0ee11ff70b04d901a29b519cbaa0,
@@ -86494,7 +86494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fontIcons: {fileID: 11400000, guid: b490f983baa13694cb7e5ecc6bd0dae3, type: 2}
-  currentIconName: Icon 3
+  currentIconName: Icon 94
   textMeshProComponent: {fileID: 4955674488587186764}
   iconFontAsset: {fileID: 0}
 --- !u!114 &7426243155866475433
@@ -89081,7 +89081,7 @@ GameObject:
   - component: {fileID: 3139608893719697198}
   - component: {fileID: 7037607836974621380}
   m_Layer: 5
-  m_Name: Reset
+  m_Name: Home
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89126,7 +89126,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Reset
+  m_text: Home
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 533bdd8d5c92b52448ee2ecf7bd828a4, type: 2}
   m_sharedMaterial: {fileID: -1005824763306460071, guid: 533bdd8d5c92b52448ee2ecf7bd828a4,
