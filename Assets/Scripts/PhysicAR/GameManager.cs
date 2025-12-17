@@ -218,21 +218,21 @@ public class GameManager : MonoBehaviour
 
                 // Update UI accordingly
                 //UIManager.Instance.endReasonText.text = "Zeitlimit erreicht";
-                UIManager.Instance.finishMaxTimeDialog.SetActive(true);
-                UIManager.Instance.statsPanel.SetActive(true);
+                //UIManager.Instance.finishMaxTimeDialog.SetActive(true);
+                //UIManager.Instance.statsPanel.SetActive(true);
             }
         }
 
-        // Measure time and distance 
-        if (cleaning)
-        {
-            // Time
-            singleAreaTime += Time.deltaTime;
+        // Measure time and distance (only for local display, not needed for actual evaluation)
+        //if (cleaning)
+        //{
+        //    // Time
+        //    singleAreaTime += Time.deltaTime;
 
-            // Distance
-            singleAreaDistance += Vector3.Distance(prevPosCleaner, ManageTracking.Instance.gameImageTarget.transform.position);
-            prevPosCleaner = ManageTracking.Instance.gameImageTarget.transform.position;
-        }
+        //    // Distance
+        //    singleAreaDistance += Vector3.Distance(prevPosCleaner, ManageTracking.Instance.gameImageTarget.transform.position);
+        //    prevPosCleaner = ManageTracking.Instance.gameImageTarget.transform.position;
+        //}
     }
 
     #endregion
@@ -310,7 +310,7 @@ public class GameManager : MonoBehaviour
 
         // Update UI
         UIManager.Instance.launchTask1Dialog.SetActive(false);
-        UIManager.Instance.resetGameToggle.SetActive(true);
+        UIManager.Instance.homeToggle.SetActive(true);
         UIManager.Instance.gameTargetToggle.SetActive(true);
 
         // Make sure dirty tiles are visible on game start
@@ -385,14 +385,18 @@ public class GameManager : MonoBehaviour
         }
 
         // Update UI
-        UIManager.Instance.cleanedAreasText.text = (areaBeingCleaned - 1).ToString();
-        UIManager.Instance.timesPerArea.text = string.Join("; ", singleAreaTimes.Select(t => t.ToString("0.00")));
-        UIManager.Instance.distancesPerArea.text = string.Join("; ", singleAreaDistances.Select(d => d.ToString("0.00")));
-        UIManager.Instance.resetGameToggle.SetActive(false);
+        UIManager.Instance.finishedTask1Panel.SetActive(true);
         UIManager.Instance.gameTargetToggle.SetActive(false);
+        UIManager.Instance.handmenuRight.SetActive(true);
+
+        //UIManager.Instance.cleanedAreasText.text = (areaBeingCleaned - 1).ToString();
+        //UIManager.Instance.timesPerArea.text = string.Join("; ", singleAreaTimes.Select(t => t.ToString("0.00")));
+        //UIManager.Instance.distancesPerArea.text = string.Join("; ", singleAreaDistances.Select(d => d.ToString("0.00")));
+        //UIManager.Instance.resetGameToggle.SetActive(false);
+        //UIManager.Instance.gameTargetToggle.SetActive(false);
 
         // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Logs_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
+        await WriteInformationToDisk($"Task1_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
 
         // Reset vars
         cleanedTiles = 0;
@@ -404,10 +408,13 @@ public class GameManager : MonoBehaviour
     }
 
     // Reset game
-    public async void ResetGame()
+    public async void ReturnHome()
     {
-        // Stop game
-        await StopTask1();
+        if (gameStarted)
+        {        
+            // Stop game
+            await StopTask1();
+        }
 
         // Reset UI to start state (selection of game mode)
         UIManager.Instance.ResetUI();
@@ -491,9 +498,9 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(cleanedAllAreasClip);
 
         // Update UI
-        UIManager.Instance.endReasonText.text = "Alle Flächen gereinigt";
-        UIManager.Instance.finishAllCleanedDialog.SetActive(true);
-        UIManager.Instance.statsPanel.SetActive(true);
+        //UIManager.Instance.endReasonText.text = "Alle Flächen gereinigt";
+        //UIManager.Instance.finishAllCleanedDialog.SetActive(true);
+        //UIManager.Instance.statsPanel.SetActive(true);
     }
 
     // Fade in dirty area

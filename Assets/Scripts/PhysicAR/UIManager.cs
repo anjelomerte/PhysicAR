@@ -1,5 +1,6 @@
 using MixedReality.Toolkit.SpatialManipulation;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -37,6 +38,12 @@ public class UIManager : MonoBehaviour
     public GameObject launchTask2Dialog;
     [Tooltip("Dialog to start third task")]
     public GameObject launchTask3Dialog;
+    [Tooltip("Panel shown after task 1 finished")]
+    public GameObject finishedTask1Panel;
+    [Tooltip("Panel shown after task 2 finished")]
+    public GameObject finishedTask2Panel;
+    [Tooltip("Panel shown after task 3 finished")]
+    public GameObject finishedTask3Panel;
     [Tooltip("Dialog when finished cleaning all dirty areas")]
     public GameObject finishAllCleanedDialog;
     [Tooltip("Dialog when finished due to maximum time reached")]
@@ -78,8 +85,8 @@ public class UIManager : MonoBehaviour
     public GameObject confirmRefTargetButton;
     [Tooltip("Toggle to confirm session anchor in surface-based game setup")]
     public GameObject confirmRefSurfaceButton;
-    [Tooltip("Reset game toggle on handmenu")]
-    public GameObject resetGameToggle;
+    [Tooltip("Go home toggle on handmenu")]
+    public GameObject homeToggle;
     [Tooltip("Toggle for game area outline")]
     public GameObject gameAreaToggle;
     [Tooltip("Toggle which controls visualization of game target (cleaner). On handmenu")]
@@ -134,7 +141,7 @@ public class UIManager : MonoBehaviour
         //surfaceBasedStartToggle.SetActive(true);
         confirmRefTargetButton.SetActive(false);
         //confirmRefSurfaceButton.SetActive(false);
-        resetGameToggle.SetActive(false);
+        homeToggle.SetActive(false);
         gameAreaToggle.SetActive(false);
         gameTargetToggle.SetActive(false);
 
@@ -142,9 +149,12 @@ public class UIManager : MonoBehaviour
         launchTask1Dialog.SetActive(false);
         launchTask2Dialog.SetActive(false);
         launchTask3Dialog.SetActive(false);
-        finishAllCleanedDialog.SetActive(false);
-        finishMaxTimeDialog.SetActive(false);
-        statsPanel.SetActive(false);
+        finishedTask1Panel.SetActive(false);
+        finishedTask2Panel.SetActive(false);
+        finishedTask3Panel.SetActive(false);
+        //finishAllCleanedDialog.SetActive(false);
+        //finishMaxTimeDialog.SetActive(false);
+        //statsPanel.SetActive(false);
 
         startDialogTut.SetActive(false);
         buttonDialogTut.SetActive(false);
@@ -157,9 +167,12 @@ public class UIManager : MonoBehaviour
         launchTask1Dialog.GetComponent<Solver>().enabled = true;
         launchTask2Dialog.GetComponent<Solver>().enabled = true;
         launchTask3Dialog.GetComponent<Solver>().enabled = true;
-        finishAllCleanedDialog.GetComponent<Solver>().enabled = true;
-        finishMaxTimeDialog.GetComponent<Solver>().enabled = true;
-        statsPanel.GetComponent<Solver>().enabled = true;
+        finishedTask1Panel.GetComponent<Solver>().enabled = true;
+        finishedTask2Panel.GetComponent<Solver>().enabled = true;
+        finishedTask3Panel.GetComponent<Solver>().enabled = true;
+        //finishAllCleanedDialog.GetComponent<Solver>().enabled = true;
+        //finishMaxTimeDialog.GetComponent<Solver>().enabled = true;
+        //statsPanel.GetComponent<Solver>().enabled = true;
         anchoredDialogTut.GetComponent<Solver>().enabled = true;
         insituDialogTut.GetComponent<Solver>().enabled = true;
     }
