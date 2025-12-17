@@ -54,6 +54,10 @@ public class UIManager : MonoBehaviour
     public GameObject handmenuLeft;
     [Tooltip("Menu canvas on left handmenu. Needs to be disabled and is automatically enabled on detection")]
     public GameObject handmenuCanvasLeft;
+    [Tooltip("Handmenu right")]
+    public GameObject handmenuRight;
+    [Tooltip("Menu canvas on right handmenu. Needs to be disabled and is automatically enabled on detection")]
+    public GameObject handmenuCanvasRight;
     [Tooltip("Button for triggering eye calibration")]
     public GameObject triggerEyeCalibButton;
     [Tooltip("Toggle for initial environmental meshing")]
@@ -62,8 +66,8 @@ public class UIManager : MonoBehaviour
     public GameObject tutorialButton;
     [Tooltip("Button to return from tutorial back to main scenario")]
     public GameObject returnFromTutButton;
-    [Tooltip("Toggle to start game using image target as anchor")]
-    public GameObject targetBasedStartToggle;
+    [Tooltip("Toggle to anchor game session")]
+    public GameObject anchorSessionButton;
     [Tooltip("Toggle to start game using surface as anchor")]
     public GameObject surfaceBasedStartToggle;
     [Tooltip("Button to confirm session anchor in target-based game setup")]
@@ -112,12 +116,17 @@ public class UIManager : MonoBehaviour
         // Set initially active dialog and disable all other
         handmenuLeft.SetActive(true);
         handmenuCanvasLeft.SetActive(false);
-        
+        handmenuRight.SetActive(true);
+        handmenuCanvasRight.SetActive(false);
+
+        //Right handmenu
         triggerEyeCalibButton.SetActive(true);
         initMeshToggle.SetActive(true);
+
+        // Left handmenu
         tutorialButton.SetActive(true);
         returnFromTutButton.SetActive(false);
-        targetBasedStartToggle.SetActive(true);
+        anchorSessionButton.SetActive(true);
         //surfaceBasedStartToggle.SetActive(true);
         confirmRefTargetButton.SetActive(false);
         //confirmRefSurfaceButton.SetActive(false);

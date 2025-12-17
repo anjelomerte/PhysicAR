@@ -19,10 +19,14 @@ public class ManageTracking : MonoBehaviour
     public ImageTargetBehaviour gameImageTarget;
     [Tooltip("Visualizer for game target")]
     public GameObject gameTargetVisualizer;
-    [Tooltip("Game area object. Contains game area visualizer and dirty areas")]
-    public GameObject gameArea;
-    [Tooltip("Visualizer for game area")]
-    public GameObject gameAreaVisualizer;
+    [Tooltip("3x4 game area object. Contains game area visualizer and dirty areas")]
+    public GameObject gameArea3x4;
+    [Tooltip("2x2 game area object. Contains game area visualizer and dirty areas")]
+    public GameObject gameArea2x2;
+    [Tooltip("Visualizer for 3x4 game area")]
+    public GameObject gameAreaVisualizer3x4;
+    [Tooltip("Visualizer for 2x2 game area")]
+    public GameObject gameAreaVisualizer2x2;
     [Tooltip("Default offset of game area when in image target ref anchoring mode")]
     public Vector3 defaultOffset = Vector3.zero;
 
@@ -105,7 +109,8 @@ public class ManageTracking : MonoBehaviour
         referenceImageTarget.enabled = true;
 
         // Align game area relative to ref target
-        gameArea.transform.SetLocalPositionAndRotation(defaultOffset, Quaternion.identity);
+        gameArea3x4.transform.SetLocalPositionAndRotation(defaultOffset, Quaternion.identity);
+        gameArea2x2.transform.SetLocalPositionAndRotation(defaultOffset, Quaternion.identity);
     }
 
     // Stop tracking session reference target. User confirmed correct detection
@@ -121,30 +126,17 @@ public class ManageTracking : MonoBehaviour
         }
         referenceTargetVisualizer.SetActive(true);
 
-        // Make sure game area stays visible
-        gameAreaVisualizer.SetActive(true);
-        foreach (var mRenderer in gameAreaVisualizer.GetComponentsInChildren<MeshRenderer>())
+        // Make sure game area(s) stay visible
+        gameAreaVisualizer3x4.SetActive(true);
+        foreach (var mRenderer in gameAreaVisualizer3x4.GetComponentsInChildren<MeshRenderer>())
         {
             mRenderer.enabled = true;
         }
-
-        //// Make sure dirty tiles are visible on game start
-        //foreach (var component in GameManager.Instance.dirtyArea.GetComponentsInChildren<Component>())
-        //{
-        //    switch (component)
-        //    {
-        //        // Enable mesh renderers and colliders as these are the key components on dirty tiles
-        //        case Renderer rendererComponent:
-        //            rendererComponent.enabled = true;
-        //            break;
-        //        case Collider colliderComponent:
-        //            colliderComponent.enabled = true;
-        //            break;
-        //        default:
-        //            // Ignore other components
-        //            break;
-        //    }
-        //}
+        gameAreaVisualizer2x2.SetActive(true);
+        foreach (var mRenderer in gameAreaVisualizer2x2.GetComponentsInChildren<MeshRenderer>())
+        {
+            mRenderer.enabled = true;
+        }
 
         // Update UI
         UIManager.Instance.startDialog.SetActive(true);
@@ -178,7 +170,7 @@ public class ManageTracking : MonoBehaviour
     {
         referenceTargetVisualizer.SetActive(false);
         gameTargetVisualizer.SetActive(false);
-        gameAreaVisualizer.SetActive(false);
+        gameAreaVisualizer3x4.SetActive(false);
     }
 
     #endregion

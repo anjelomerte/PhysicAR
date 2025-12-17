@@ -247,10 +247,9 @@ public class GameManager : MonoBehaviour
         ManageTracking.Instance.StartTrackingRefTarget();
 
         // Update UI
-        UIManager.Instance.initMeshToggle.SetActive(false);
-        UIManager.Instance.triggerEyeCalibButton.SetActive(false);
+        UIManager.Instance.handmenuLeft.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
-        UIManager.Instance.targetBasedStartToggle.SetActive(false);
+        UIManager.Instance.anchorSessionButton.SetActive(false);
         //UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefTargetButton.SetActive(true);
         UIManager.Instance.initDialog.SetActive(false);
@@ -267,17 +266,17 @@ public class GameManager : MonoBehaviour
         meshManager.enabled = true;
 
         // Enable game area visualization
-        foreach (var rend in ManageTracking.Instance.gameAreaVisualizer.GetComponentsInChildren<MeshRenderer>())
+        foreach (var rend in ManageTracking.Instance.gameAreaVisualizer3x4.GetComponentsInChildren<MeshRenderer>())
         {
             rend.enabled = true;
         }
-        ManageTracking.Instance.gameAreaVisualizer.SetActive(true);
+        ManageTracking.Instance.gameAreaVisualizer3x4.SetActive(true);
 
         // Update UI
         UIManager.Instance.initMeshToggle.SetActive(false);
         UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
-        UIManager.Instance.targetBasedStartToggle.SetActive(false);
+        UIManager.Instance.anchorSessionButton.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefSurfaceButton.SetActive(true);
         UIManager.Instance.initDialog.SetActive(false);

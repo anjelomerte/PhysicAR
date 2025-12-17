@@ -32,7 +32,7 @@ public class TutorialManager : MonoBehaviour
         UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
-        UIManager.Instance.targetBasedStartToggle.SetActive(false);
+        UIManager.Instance.anchorSessionButton.SetActive(false);
         UIManager.Instance.initDialog.SetActive(false);
 
         UIManager.Instance.returnFromTutButton.SetActive(true);
@@ -126,7 +126,7 @@ public class TutorialManager : MonoBehaviour
         UIManager.Instance.triggerEyeCalibButton.SetActive(true);
         UIManager.Instance.tutorialButton.SetActive(true);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(true);
-        UIManager.Instance.targetBasedStartToggle.SetActive(true);
+        UIManager.Instance.anchorSessionButton.SetActive(true);
         UIManager.Instance.returnFromTutButton.SetActive(false);
         UIManager.Instance.initDialog.SetActive(true);
 
