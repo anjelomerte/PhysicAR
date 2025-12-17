@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
             if (timeStamp >= maxGameTime)
             {
                 // Stop game
-                await StopGame();
+                await StopTask1();
 
                 // Reset time
                 timeStamp = 0f;
@@ -295,9 +295,9 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.confirmRefSurfaceButton.SetActive(false);
         UIManager.Instance.launchTask1Dialog.SetActive(true);
     }
-
-    // Start cleaning game
-    public void StartGame()
+    
+    // Start task 1
+    public void StartTask1()
     {
         // Disable far rays
         UIManager.Instance.leftHandRay.SetActive(false);
@@ -351,8 +351,20 @@ public class GameManager : MonoBehaviour
         gameStarted = true;
     }
 
+    // Start task 2
+    public void StartTask2()
+    {
+        Debug.Log("Task 2 to be implemented");
+    }
+
+    // Start task 3
+    public void StartTask3()
+    {
+        Debug.Log("Task 3 to be implemented");
+    }
+
     // Stop cleaning game
-    public async Task StopGame()
+    public async Task StopTask1()
     {
         // Flag as stopped (terminates information sampling in Update)
         gameStarted = false;
@@ -395,7 +407,7 @@ public class GameManager : MonoBehaviour
     public async void ResetGame()
     {
         // Stop game
-        await StopGame();
+        await StopTask1();
 
         // Reset UI to start state (selection of game mode)
         UIManager.Instance.ResetUI();
@@ -473,7 +485,7 @@ public class GameManager : MonoBehaviour
     public async void CleanedAllDirtyAreas()
     {
         // Stop game
-        await StopGame();
+        await StopTask1();
 
         // Acoustic feedback that all areas have been cleaned
         audioSource.PlayOneShot(cleanedAllAreasClip);
