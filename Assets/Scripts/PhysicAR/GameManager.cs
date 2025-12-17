@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.targetBasedStartToggle.SetActive(false);
-        UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
+        //UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefTargetButton.SetActive(true);
         UIManager.Instance.initDialog.SetActive(false);
     }
