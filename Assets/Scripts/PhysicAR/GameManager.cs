@@ -1,6 +1,7 @@
 ﻿using MixedReality.Toolkit;
 using MixedReality.Toolkit.SpatialManipulation;
 using MixedReality.Toolkit.Subsystems;
+using MixedReality.Toolkit.UX;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -303,6 +304,8 @@ public class GameManager : MonoBehaviour
 
         // Start stracking game target
         ManageTracking.Instance.StartTrackingGameTarget();
+        // Enable cleaner outline by default
+        UIManager.Instance.gameTargetToggle.GetComponent<PressableButton>().ForceSetToggled(true);
 
         // Update UI
         UIManager.Instance.startDialog.SetActive(false);

@@ -118,9 +118,9 @@ public class UIManager : MonoBehaviour
         tutorialButton.SetActive(true);
         returnFromTutButton.SetActive(false);
         targetBasedStartToggle.SetActive(true);
-        surfaceBasedStartToggle.SetActive(true);
+        //surfaceBasedStartToggle.SetActive(true);
         confirmRefTargetButton.SetActive(false);
-        confirmRefSurfaceButton.SetActive(false);
+        //confirmRefSurfaceButton.SetActive(false);
         resetGameToggle.SetActive(false);
         gameAreaToggle.SetActive(false);
         gameTargetToggle.SetActive(false);
