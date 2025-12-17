@@ -248,6 +248,8 @@ public class GameManager : MonoBehaviour
 
         // Update UI
         UIManager.Instance.handmenuLeft.SetActive(false);
+        UIManager.Instance.initMeshToggle.SetActive(false);
+        UIManager.Instance.triggerEyeCalibButton.SetActive(false);
         UIManager.Instance.tutorialButton.SetActive(false);
         UIManager.Instance.anchorSessionButton.SetActive(false);
         //UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
@@ -291,7 +293,7 @@ public class GameManager : MonoBehaviour
 
         // Update UI
         UIManager.Instance.confirmRefSurfaceButton.SetActive(false);
-        UIManager.Instance.startDialog.SetActive(true);
+        UIManager.Instance.launchTask1Dialog.SetActive(true);
     }
 
     // Start cleaning game
@@ -307,7 +309,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.gameTargetToggle.GetComponent<PressableButton>().ForceSetToggled(true);
 
         // Update UI
-        UIManager.Instance.startDialog.SetActive(false);
+        UIManager.Instance.launchTask1Dialog.SetActive(false);
         UIManager.Instance.resetGameToggle.SetActive(true);
         UIManager.Instance.gameTargetToggle.SetActive(true);
 

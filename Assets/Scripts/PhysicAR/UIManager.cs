@@ -31,8 +31,12 @@ public class UIManager : MonoBehaviour
     public GameObject finishedDialogTut;
 
     // Game
-    [Tooltip("Dialog asking user to start the PhsicAR session")]
-    public GameObject startDialog;
+    [Tooltip("Dialog to start first task")]
+    public GameObject launchTask1Dialog;
+    [Tooltip("Dialog to start second task")]
+    public GameObject launchTask2Dialog;
+    [Tooltip("Dialog to start third task")]
+    public GameObject launchTask3Dialog;
     [Tooltip("Dialog when finished cleaning all dirty areas")]
     public GameObject finishAllCleanedDialog;
     [Tooltip("Dialog when finished due to maximum time reached")]
@@ -116,7 +120,7 @@ public class UIManager : MonoBehaviour
         // Set initially active dialog and disable all other
         handmenuLeft.SetActive(true);
         handmenuCanvasLeft.SetActive(false);
-        handmenuRight.SetActive(true);
+        handmenuRight.SetActive(false);
         handmenuCanvasRight.SetActive(false);
 
         //Right handmenu
@@ -135,7 +139,9 @@ public class UIManager : MonoBehaviour
         gameTargetToggle.SetActive(false);
 
         initDialog.SetActive(true);
-        startDialog.SetActive(false);
+        launchTask1Dialog.SetActive(false);
+        launchTask2Dialog.SetActive(false);
+        launchTask3Dialog.SetActive(false);
         finishAllCleanedDialog.SetActive(false);
         finishMaxTimeDialog.SetActive(false);
         statsPanel.SetActive(false);
@@ -148,7 +154,9 @@ public class UIManager : MonoBehaviour
         finishedDialogTut.SetActive(false);
 
         // Enable all spatial solvers by default (because some panels disable solvers)
-        startDialog.GetComponent<Solver>().enabled = true;
+        launchTask1Dialog.GetComponent<Solver>().enabled = true;
+        launchTask2Dialog.GetComponent<Solver>().enabled = true;
+        launchTask3Dialog.GetComponent<Solver>().enabled = true;
         finishAllCleanedDialog.GetComponent<Solver>().enabled = true;
         finishMaxTimeDialog.GetComponent<Solver>().enabled = true;
         statsPanel.GetComponent<Solver>().enabled = true;

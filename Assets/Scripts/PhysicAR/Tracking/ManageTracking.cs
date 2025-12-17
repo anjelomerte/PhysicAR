@@ -139,8 +139,11 @@ public class ManageTracking : MonoBehaviour
         }
 
         // Update UI
-        UIManager.Instance.startDialog.SetActive(true);
         UIManager.Instance.confirmRefTargetButton.SetActive(false);
+
+        //UIManager.Instance.startDialog.SetActive(true);
+        // Enable task selection via right hand menu
+        UIManager.Instance.handmenuRight.SetActive(true);
     }
 
     // Start tracking game target
