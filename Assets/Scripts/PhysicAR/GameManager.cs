@@ -351,19 +351,7 @@ public class GameManager : MonoBehaviour
         gameStarted = true;
     }
 
-    // Start task 2
-    public void StartTask2()
-    {
-        Debug.Log("Task 2 to be implemented");
-    }
-
-    // Start task 3
-    public void StartTask3()
-    {
-        Debug.Log("Task 3 to be implemented");
-    }
-
-    // Stop cleaning game
+    // Stop task 1
     public async Task StopTask1()
     {
         // Flag as stopped (terminates information sampling in Update)
@@ -407,7 +395,31 @@ public class GameManager : MonoBehaviour
         informationFrames = new();
     }
 
-    // Reset game
+    // Start task 2
+    public void StartTask2()
+    {
+        Debug.Log("Task 2 to be implemented");
+    }
+
+    // Stop task 2
+    public async void StopTask2()
+    {
+
+    }
+
+    // Start task 3
+    public void StartTask3()
+    {
+        Debug.Log("Task 3 to be implemented");
+    }
+
+    // Stop task 3
+    public async void StopTask3()
+    {
+
+    }
+
+    // Return to home menu, abort game if running
     public async void ReturnHome()
     {
         if (gameStarted)
