@@ -34,21 +34,23 @@ public class GameManager : MonoBehaviour
     [Tooltip("ARMeshManager component responsible for environment meshing")]
     public ARMeshManager meshManager;
 
-    [Tooltip("Dirty area game element consisting of many smaller tiles")]
+    [Tooltip("Dirty area game element consisting of many smaller tiles (used for task 1 and 3)")]
     public GameObject dirtyArea;
-    [Tooltip("List of locations (parent objects) for dirty areas")]
-    public List<Transform> dirtyAreaLocations;
-    [Tooltip("Array of dirty area indices in the order they should be cleaned")]
-    public int[] dirtyAreaOrder2x2;
-    [Tooltip("Array of dirty area indices in the order they should be cleaned")]
-    public int[] dirtyAreaOrder3x4;
+    [Tooltip("Numbered dirty areas (task 2)")]
+    public GameObject[] numberedDirtyAreas;
+    [Tooltip("List of locations (parent objects) for dirty areas (task 1)")]
+    public List<Transform> dirtyAreaLocations3x4;
+    [Tooltip("List of locations (parent objects) for dirty areas (task 3)")]
+    public List<Transform> dirtyAreaLocations2x2;
     [Tooltip("Current dirty area index")]
     private int currentDirtyAreaIndex = 0;
 
     [Tooltip("Shared material for dirty tiles")]
     private Material[] dirtyMats = new Material[2];
     [Tooltip("Fade duration for showing next dirty area")]
-    public float fadeDuration = 1.5f;
+    private float fadeDuration = 1.5f;
+    [Tooltip("Time numbered dirty tiles are shown in task 2 (seconds)")]
+    public float showNumberedDirtyAreasTime;
 
     [Tooltip("Total number of tiles within a single dirty area")]
     private int tilesInOneArea = 0;
@@ -89,7 +91,7 @@ public class GameManager : MonoBehaviour
     public Vector3 prevPosCleaner;
 
     [Tooltip("Flag if game started/is running")]
-    private bool gameStarted = false;
+    private bool taskIsRunning = false;
     [Tooltip("Maximum time after which game automatically terminates even if not all areas were cleaned (in seconds)")]
     public float maxGameTime = 180f;
 
@@ -193,7 +195,7 @@ public class GameManager : MonoBehaviour
     private async void Update()
     {
         // Measure game time once it started
-        if (gameStarted)
+        if (taskIsRunning)
         {
             // Measure time between frames
             samplingTimer += Time.unscaledDeltaTime;
@@ -303,15 +305,15 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.leftHandRay.SetActive(false);
         UIManager.Instance.rightHandRay.SetActive(false);
 
-        // Start stracking game target
-        ManageTracking.Instance.StartTrackingGameTarget();
-        // Enable cleaner outline by default
-        UIManager.Instance.gameTargetToggle.GetComponent<PressableButton>().ForceSetToggled(true);
-
         // Update UI
         UIManager.Instance.launchTask1Dialog.SetActive(false);
         UIManager.Instance.homeToggle.SetActive(true);
         UIManager.Instance.gameTargetToggle.SetActive(true);
+
+        // Start tracking game target
+        ManageTracking.Instance.StartTrackingGameTarget();
+        // Enable cleaner outline by default
+        UIManager.Instance.gameTargetToggle.GetComponent<PressableButton>().ForceSetToggled(true);
 
         // Make sure dirty tiles are visible on game start
         foreach (var component in dirtyArea.GetComponentsInChildren<Component>())
@@ -332,7 +334,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Choose dirty area to clean based on specified order array
-        dirtyArea.transform.SetParent(dirtyAreaLocations[currentDirtyAreaIndex]);
+        dirtyArea.transform.SetParent(dirtyAreaLocations3x4[currentDirtyAreaIndex]);
 
         // Set local pose to identity to match prelocation
         dirtyArea.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.Euler(-90f, 0f, 0f));
@@ -348,14 +350,14 @@ public class GameManager : MonoBehaviour
         singleAreaTimes.Clear();
 
         // Flag game as started
-        gameStarted = true;
+        taskIsRunning = true;
     }
 
     // Stop task 1
     public async Task StopTask1()
     {
         // Flag as stopped (terminates information sampling in Update)
-        gameStarted = false;
+        taskIsRunning = false;
 
         // Enable far rays again
         UIManager.Instance.leftHandRay.SetActive(true);
@@ -398,7 +400,82 @@ public class GameManager : MonoBehaviour
     // Start task 2
     public void StartTask2()
     {
-        Debug.Log("Task 2 to be implemented");
+        // Disable far rays
+        UIManager.Instance.leftHandRay.SetActive(false);
+        UIManager.Instance.rightHandRay.SetActive(false);
+
+        // Update UI
+        UIManager.Instance.launchTask2Dialog.SetActive(false);
+        UIManager.Instance.homeToggle.SetActive(true);
+        UIManager.Instance.gameTargetToggle.SetActive(true);
+
+        // Make sure dirty tiles are visible on game start
+        foreach (var area in numberedDirtyAreas)
+        {
+            foreach (var component in area.GetComponentsInChildren<Component>())
+            {
+                switch (component)
+                {
+                    // Enable mesh renderers and colliders as these are the key components on dirty tiles
+                    case Renderer rendererComponent:
+                        rendererComponent.enabled = true;
+                        break;
+                    case Collider colliderComponent:
+                        colliderComponent.enabled = true;
+                        break;
+                    case Canvas canvasComponent:
+                        canvasComponent.enabled = true;
+                        break;
+                    default:
+                        // Ignore other components
+                        break;
+                }
+            }
+        }
+
+        // Start coroutine which initiates task 2
+        StartCoroutine(InitiateTask2());
+    }
+
+    private IEnumerator InitiateTask2()
+    {
+        // Flag game as started
+        taskIsRunning = true;
+
+        // Show numbered dirty areas
+        foreach (var area in numberedDirtyAreas)
+        {
+            area.SetActive(true);
+        }
+
+        // Show numbered dirty areas for specified amount of time
+        yield return new WaitForSecondsRealtime(showNumberedDirtyAreasTime);
+
+        // Hide numbered dirty areas again (only rendered part, still active)
+        foreach (var area in numberedDirtyAreas)
+        {
+            foreach (var component in area.GetComponentsInChildren<Component>())
+            {
+                switch (component)
+                {
+                    // Enable mesh renderers and colliders as these are the key components on dirty tiles
+                    case Renderer rendererComponent:
+                        rendererComponent.enabled = false;
+                        break;
+                    case Canvas canvasComponent:
+                        canvasComponent.enabled = false;
+                        break;
+                    default:
+                        // Ignore other components
+                        break;
+                }
+            }
+        }
+
+        // Start tracking game target
+        ManageTracking.Instance.StartTrackingGameTarget();
+        // Enable cleaner outline by default
+        UIManager.Instance.gameTargetToggle.GetComponent<PressableButton>().ForceSetToggled(true);
     }
 
     // Stop task 2
@@ -422,7 +499,7 @@ public class GameManager : MonoBehaviour
     // Return to home menu, abort game if running
     public async void ReturnHome()
     {
-        if (gameStarted)
+        if (taskIsRunning)
         {        
             // Stop game
             await StopTask1();
@@ -479,7 +556,7 @@ public class GameManager : MonoBehaviour
         CleanedTiles = 0;
 
         // Move to next dirty area if not completely finished
-        if (currentDirtyAreaIndex < dirtyAreaLocations.Count - 1)
+        if (currentDirtyAreaIndex < dirtyAreaLocations3x4.Count - 1)
         {
             currentDirtyAreaIndex++;
         }
@@ -492,7 +569,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Position dirty area at next location
-        dirtyArea.transform.SetParent(dirtyAreaLocations[currentDirtyAreaIndex]);
+        dirtyArea.transform.SetParent(dirtyAreaLocations3x4[currentDirtyAreaIndex]);
         dirtyArea.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.Euler(-90f, 0f, 0f));
 
         // Fade in next dirty area
