@@ -6,6 +6,10 @@ TagManager:
   tags:
   - qrVis
   - dirtyTile
+  - area_1
+  - area_3
+  - area_2
+  - area_4
   layers:
   - Default
   - TransparentFX

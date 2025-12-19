@@ -153,9 +153,9 @@ public class ManageTracking : MonoBehaviour
         gameImageTarget.enabled = true;
 
         // Start measuring distance
-        prevPosCleaner = gameImageTarget.transform.position;
-        totalCleanDistance = 0f;
-        measureDistance = true;
+        //prevPosCleaner = gameImageTarget.transform.position;
+        //totalCleanDistance = 0f;
+        //measureDistance = true;
     }
 
     // Stop tracking game target
@@ -165,8 +165,21 @@ public class ManageTracking : MonoBehaviour
         gameImageTarget.enabled = false;
 
         // Stop measure distance
-        measureDistance = false;
+        //measureDistance = false;
     }
+
+    // Game target (cleaner) is tracked
+    public void GameTargetFound()
+    {
+        GameManager.Instance.cleanerIsTracked = 1;
+    }
+
+    // Game target (cleaner) is not tracked
+    public void GameTargetLost()
+    {
+        GameManager.Instance.cleanerIsTracked = 0;
+    }
+
 
     // Disable all tracking visualizers
     public void DisableVisualizers()

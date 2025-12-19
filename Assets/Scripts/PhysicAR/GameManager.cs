@@ -70,10 +70,21 @@ public class GameManager : MonoBehaviour
                 // This is the first tile of a single dirty area
                 StartedCleaningArea();
             }
-            else if (cleanedTiles >= tilesInOneArea)
+            else if (currentTask == 1)
             {
-                // This is the last tile of a single dirty area
-                FinishedCleaningArea();
+                if (cleanedTiles >= tilesInOneArea)
+                {
+                    // This is the last tile of a single dirty area
+                    FinishedCleaningSingleAreaT1();
+                }
+            }
+            else if (currentTask == 2)
+            {
+                if (cleanedTiles >= 400)
+                {
+                    // All numbered tiles cleaned before time limit
+                    StopTask2();
+                }
             }
         }
     }
@@ -92,8 +103,17 @@ public class GameManager : MonoBehaviour
 
     [Tooltip("Flag if game started/is running")]
     private bool taskIsRunning = false;
-    [Tooltip("Maximum time after which game automatically terminates even if not all areas were cleaned (in seconds)")]
-    public float maxGameTime = 180f;
+    [Tooltip("Currently running task (1,2,3). 0 if none going on")]
+    public int currentTask = 0;
+    [Tooltip("Dynamic max. game time depending on task in seconds (T1: 180, T2: 120, T3: 120)")]
+    private float maxGameTime;
+    [Tooltip("User specified max. game time for task 1")]
+    public float task1Time = 180f;
+    [Tooltip("User specified max. game time for task 2")]
+    public float task2Time = 120f;
+    [Tooltip("User specified max. game time for task 3")]
+    public float task3Time = 120f;
+
 
     [Tooltip("Audio source used to provide acoustic feedback to user")]
     public AudioSource audioSource;
@@ -132,7 +152,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("ID of area being cleaned. Is 0 if not (started) cleaning an area")]
     private int areaID = 0;
     [Tooltip("Number of area being currently cleaned. Used to specify areaID if currently cleaning")]
-    private int areaBeingCleaned = 1;
+    public int areaBeingCleaned = 1;
     [Tooltip("Flag whether currently cleaning area or not")]
     private bool cleaning = false;
 
@@ -213,7 +233,18 @@ public class GameManager : MonoBehaviour
             if (timeStamp >= maxGameTime)
             {
                 // Stop game
-                await StopTask1();
+                if (currentTask == 1)
+                {
+                    await StopTask1();
+                }
+                else if (currentTask == 2)
+                {
+                    await StopTask2();
+                }
+                else if (currentTask == 3)
+                {
+                    await StopTask3();
+                }
 
                 // Reset time
                 timeStamp = 0f;
@@ -301,6 +332,13 @@ public class GameManager : MonoBehaviour
     // Start task 1
     public void StartTask1()
     {
+        // Flag game as started
+        taskIsRunning = true;
+        currentTask = 1;
+
+        // Set max. game time according to task 1
+        maxGameTime = task1Time;
+
         // Disable far rays
         UIManager.Instance.leftHandRay.SetActive(false);
         UIManager.Instance.rightHandRay.SetActive(false);
@@ -343,14 +381,11 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(FadeInDirtyArea(fadeDuration));
         dirtyArea.SetActive(true);
 
-        // Reset previous data
-        singleAreaDistance = 0f;
-        singleAreaTime = 0f;
-        singleAreaDistances.Clear();
-        singleAreaTimes.Clear();
-
-        // Flag game as started
-        taskIsRunning = true;
+        // Reset previous data (local visualization)
+        //singleAreaDistance = 0f;
+        //singleAreaTime = 0f;
+        //singleAreaDistances.Clear();
+        //singleAreaTimes.Clear();
     }
 
     // Stop task 1
@@ -358,6 +393,7 @@ public class GameManager : MonoBehaviour
     {
         // Flag as stopped (terminates information sampling in Update)
         taskIsRunning = false;
+        currentTask = 0;
 
         // Enable far rays again
         UIManager.Instance.leftHandRay.SetActive(true);
@@ -388,7 +424,7 @@ public class GameManager : MonoBehaviour
         // Write sampled information to disk using current time in name
         await WriteInformationToDisk($"Task1_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
 
-        // Reset vars
+        // Reset vars (data)
         cleanedTiles = 0;
         CleanedTiles = 0;
         currentDirtyAreaIndex = 0;
@@ -400,6 +436,13 @@ public class GameManager : MonoBehaviour
     // Start task 2
     public void StartTask2()
     {
+        // Flag game as started
+        taskIsRunning = true;
+        currentTask = 2;
+
+        // Set max. game time according to task 1
+        maxGameTime = task2Time;
+
         // Disable far rays
         UIManager.Instance.leftHandRay.SetActive(false);
         UIManager.Instance.rightHandRay.SetActive(false);
@@ -439,9 +482,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator InitiateTask2()
     {
-        // Flag game as started
-        taskIsRunning = true;
-
         // Show numbered dirty areas
         foreach (var area in numberedDirtyAreas)
         {
@@ -449,7 +489,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Show numbered dirty areas for specified amount of time
-        yield return new WaitForSecondsRealtime(showNumberedDirtyAreasTime);
+        yield return new WaitForSeconds(showNumberedDirtyAreasTime);
 
         // Hide numbered dirty areas again (only rendered part, still active)
         foreach (var area in numberedDirtyAreas)
@@ -479,21 +519,70 @@ public class GameManager : MonoBehaviour
     }
 
     // Stop task 2
-    public async void StopTask2()
+    public async Task StopTask2()
     {
+        // Flag as stopped (terminates information sampling in Update)
+        taskIsRunning = false;
+        currentTask = 0;
+        cleaning = false;
 
+        // Enable far rays again
+        UIManager.Instance.leftHandRay.SetActive(true);
+        UIManager.Instance.rightHandRay.SetActive(true);
+
+        // Stop tracking game target
+        ManageTracking.Instance.StopTrackingGameTarget();
+
+        // Reset dirty area tiles
+        dirtyArea.SetActive(false);
+        for (int i = 0; i < dirtyArea.transform.childCount; i++)
+        {
+            // Enable all tiles again
+            dirtyArea.transform.GetChild(i).gameObject.SetActive(true);
+        }
+
+        // Update UI
+        UIManager.Instance.finishedTask2Panel.SetActive(true);
+        UIManager.Instance.gameTargetToggle.SetActive(false);
+        UIManager.Instance.handmenuRight.SetActive(true);
+
+        // Write sampled information to disk using current time in name
+        await WriteInformationToDisk($"Task2_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
+
+        // Reset vars (data)
+        cleanedTiles = 0;
+        CleanedTiles = 0;
+        currentDirtyAreaIndex = 0;
+        areaBeingCleaned = 1;
+        timeStamp = 0f;
+        informationFrames = new();
     }
 
     // Start task 3
     public void StartTask3()
     {
-        Debug.Log("Task 3 to be implemented");
+        // Flag game as started
+        taskIsRunning = true;
+        currentTask = 3;
+
+        // Set max. game time according to task 1
+        maxGameTime = task1Time;
     }
 
     // Stop task 3
-    public async void StopTask3()
+    public async Task StopTask3()
     {
+        // Flag as stopped (terminates information sampling in Update)
+        taskIsRunning = false;
+        currentTask = 0;
 
+        // Reset vars (data)
+        cleanedTiles = 0;
+        CleanedTiles = 0;
+        currentDirtyAreaIndex = 0;
+        areaBeingCleaned = 1;
+        timeStamp = 0f;
+        informationFrames = new();
     }
 
     // Return to home menu, abort game if running
@@ -519,16 +608,16 @@ public class GameManager : MonoBehaviour
     public void StartedCleaningArea()
     {
         // Start measuring time and distance
-        singleAreaTime = 0f;
-        singleAreaDistance = 0f;
-        prevPosCleaner = ManageTracking.Instance.gameImageTarget.transform.position;
+        //singleAreaTime = 0f;
+        //singleAreaDistance = 0f;
+        //prevPosCleaner = ManageTracking.Instance.gameImageTarget.transform.position;
         cleaning = true;
 
-        Debug.Log("Started cleaning an area");
+        Debug.Log("Reached firts dirty tile, started cleaning an area (any task)");
     }
 
     // Callback for when user has cleaned all tiles of a single dirty area
-    public void FinishedCleaningArea()
+    public void FinishedCleaningSingleAreaT1()
     {
         // Acoustic feedback that single area has been cleaned
         audioSource.PlayOneShot(cleanedSingleAreaClip);
@@ -546,8 +635,8 @@ public class GameManager : MonoBehaviour
 
         // Stop measuring time and distance for this dirty area
         cleaning = false;
-        singleAreaTimes.Add(singleAreaTime);
-        singleAreaDistances.Add(singleAreaDistance);
+        //singleAreaTimes.Add(singleAreaTime);
+        //singleAreaDistances.Add(singleAreaDistance);
 
         Debug.Log("Finished cleaning an area");
 
@@ -563,7 +652,7 @@ public class GameManager : MonoBehaviour
         else
         {
             // Callback for complete finish
-            CleanedAllDirtyAreas();
+            CleanedAllDirtyAreasT1();
 
             return;
         }
@@ -578,7 +667,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Callback for when user has finished cleaning all dirty areas
-    public async void CleanedAllDirtyAreas()
+    public async void CleanedAllDirtyAreasT1()
     {
         // Stop game
         await StopTask1();

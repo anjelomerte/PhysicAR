@@ -1,12 +1,12 @@
 using UnityEngine;
-using Vuforia;
 
 public class CleanCollider : MonoBehaviour
 {
     #region Properties
 
-    [Tooltip("Default tag of dirty tiles")]
-    public string tileTag = "dirtyTile";
+    [Tooltip("Possible tags of dirty tiles")]
+    public string [] tileTags;
+
 
     #endregion
 
@@ -23,7 +23,7 @@ public class CleanCollider : MonoBehaviour
     private void OnTriggerStay(Collider objCollidedWith)
     {
         // First check if colliding with dirty tile
-        if (objCollidedWith.CompareTag(tileTag))
+        if (objCollidedWith.CompareTag(tileTags[0]) || objCollidedWith.CompareTag(tileTags[1]) || objCollidedWith.CompareTag(tileTags[2]) || objCollidedWith.CompareTag(tileTags[3]) || objCollidedWith.CompareTag(tileTags[4]))
         {
             // Get current worldspace bounds of cleaner and dirty tile
             Bounds tileBounds = objCollidedWith.bounds;
@@ -39,6 +39,13 @@ public class CleanCollider : MonoBehaviour
 
                 // Increment number of cleaned tiles in GameManager
                 GameManager.Instance.CleanedTiles++;
+
+                // Only for task 2 (static dirty areas)
+                if (GameManager.Instance.currentTask == 2)
+                {
+                    // Set area id of currently cleaned one (based on tag. E.g. "area_3")
+                    GameManager.Instance.areaBeingCleaned = int.Parse(objCollidedWith.tag.Split("_")[1]);
+                }
             }
         }
     }
