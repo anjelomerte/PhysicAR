@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     public List<Transform> dirtyAreaLocations2x2;
     [Tooltip("Current dirty area index")]
     private int currentDirtyAreaIndex = 0;
+    [Tooltip("Stageplate with 3D objects to remember during task 3")]
+    public GameObject objectsToRemember;
 
     [Tooltip("Shared material for dirty tiles")]
     private Material[] dirtyMats = new Material[2];
@@ -51,6 +53,8 @@ public class GameManager : MonoBehaviour
     private float fadeDuration = 1.5f;
     [Tooltip("Time numbered dirty tiles are shown in task 2 (seconds)")]
     public float showNumberedDirtyAreasTime;
+    [Tooltip("Time 3d objects to remember are shown in task 3 (seconds)")]
+    public float show3dObjectsTime;
 
     [Tooltip("Total number of tiles within a single dirty area")]
     private int tilesInOneArea = 0;
@@ -70,12 +74,12 @@ public class GameManager : MonoBehaviour
                 // This is the first tile of a single dirty area
                 StartedCleaningArea();
             }
-            else if (currentTask == 1)
+            else if (currentTask == 1 || currentTask == 3)
             {
                 if (cleanedTiles >= tilesInOneArea)
                 {
                     // This is the last tile of a single dirty area
-                    FinishedCleaningSingleAreaT1();
+                    FinishedCleaningSingleAreaT1T3();
                 }
             }
             else if (currentTask == 2)
@@ -210,6 +214,9 @@ public class GameManager : MonoBehaviour
 
         // Cache hands aggergator for getting wrist poses later
         handAggregator = XRSubsystemHelpers.GetFirstRunningSubsystem<HandsAggregatorSubsystem>();
+
+        // Hide object plate of task 3
+        objectsToRemember.SetActive(false);
     }
 
     private async void Update()
@@ -567,6 +574,63 @@ public class GameManager : MonoBehaviour
 
         // Set max. game time according to task 1
         maxGameTime = task1Time;
+
+        // Disable far rays
+        UIManager.Instance.leftHandRay.SetActive(false);
+        UIManager.Instance.rightHandRay.SetActive(false);
+
+        // Update UI
+        UIManager.Instance.launchTask3Dialog.SetActive(false);
+        UIManager.Instance.homeToggle.SetActive(true);
+        UIManager.Instance.gameTargetToggle.SetActive(true);
+
+        // Make sure dirty tiles are visible on game start
+        foreach (var component in dirtyArea.GetComponentsInChildren<Component>())
+        {
+            switch (component)
+            {
+                // Enable mesh renderers and colliders as these are the key components on dirty tiles
+                case Renderer rendererComponent:
+                    rendererComponent.enabled = true;
+                    break;
+                case Collider colliderComponent:
+                    colliderComponent.enabled = true;
+                    break;
+                default:
+                    // Ignore other components
+                    break;
+            }
+        }
+
+        // Start coroutine which initiates task 3
+        StartCoroutine(InitiateTask3());
+    }
+
+    private IEnumerator InitiateTask3()
+    {
+        // Show user 3D objects to remember
+        objectsToRemember.SetActive(true);
+
+        // Continue with task 3 after specified amount of time
+        yield return new WaitForSeconds(show3dObjectsTime);
+
+        // Disable objects again
+        objectsToRemember.SetActive(false);
+
+        // Choose dirty area to clean based on specified order array
+        dirtyArea.transform.SetParent(dirtyAreaLocations2x2[currentDirtyAreaIndex]);
+
+        // Set local pose to identity to match prelocation
+        dirtyArea.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.Euler(-90f, 0f, 0f));
+
+        // Fade in dirty area to be cleaned
+        //StartCoroutine(FadeInDirtyArea(fadeDuration));
+        dirtyArea.SetActive(true);
+
+        // Start tracking game target
+        ManageTracking.Instance.StartTrackingGameTarget();
+        // Enable cleaner outline by default
+        UIManager.Instance.gameTargetToggle.GetComponent<PressableButton>().ForceSetToggled(true);
     }
 
     // Stop task 3
@@ -575,6 +639,29 @@ public class GameManager : MonoBehaviour
         // Flag as stopped (terminates information sampling in Update)
         taskIsRunning = false;
         currentTask = 0;
+
+        // Enable far rays again
+        UIManager.Instance.leftHandRay.SetActive(true);
+        UIManager.Instance.rightHandRay.SetActive(true);
+
+        // Stop tracking game target
+        ManageTracking.Instance.StopTrackingGameTarget();
+
+        // Reset dirty area tiles
+        dirtyArea.SetActive(false);
+        for (int i = 0; i < dirtyArea.transform.childCount; i++)
+        {
+            // Enable all tiles again
+            dirtyArea.transform.GetChild(i).gameObject.SetActive(true);
+        }
+
+        // Update UI
+        UIManager.Instance.finishedTask3Panel.SetActive(true);
+        UIManager.Instance.gameTargetToggle.SetActive(false);
+        UIManager.Instance.handmenuRight.SetActive(true);
+
+        // Write sampled information to disk using current time in name
+        await WriteInformationToDisk($"Task3_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
 
         // Reset vars (data)
         cleanedTiles = 0;
@@ -617,7 +704,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Callback for when user has cleaned all tiles of a single dirty area
-    public void FinishedCleaningSingleAreaT1()
+    public void FinishedCleaningSingleAreaT1T3()
     {
         // Acoustic feedback that single area has been cleaned
         audioSource.PlayOneShot(cleanedSingleAreaClip);
@@ -645,20 +732,42 @@ public class GameManager : MonoBehaviour
         CleanedTiles = 0;
 
         // Move to next dirty area if not completely finished
-        if (currentDirtyAreaIndex < dirtyAreaLocations3x4.Count - 1)
+        if (currentTask == 1)
         {
-            currentDirtyAreaIndex++;
+            if (currentDirtyAreaIndex < dirtyAreaLocations3x4.Count - 1)
+            {
+                currentDirtyAreaIndex++;
+            }
+            else
+            {
+                // Callback for complete finish
+                CleanedAllDirtyAreasT1();
+
+                return;
+            }
+
+            // Attach relevant dirty area to next parent position
+            dirtyArea.transform.SetParent(dirtyAreaLocations3x4[currentDirtyAreaIndex]);
         }
-        else
+        else if (currentTask == 3)
         {
-            // Callback for complete finish
-            CleanedAllDirtyAreasT1();
+            if (currentDirtyAreaIndex < dirtyAreaLocations2x2.Count - 1)
+            {
+                currentDirtyAreaIndex++;
+            }
+            else
+            {
+                // Callback for complete finish
+                CleanedAllDirtyAreasT3();
 
-            return;
+                return;
+            }
+
+            // Attach relevant dirty area to next parent position
+            dirtyArea.transform.SetParent(dirtyAreaLocations2x2[currentDirtyAreaIndex]);
         }
 
-        // Position dirty area at next location
-        dirtyArea.transform.SetParent(dirtyAreaLocations3x4[currentDirtyAreaIndex]);
+        // Reset local orientation of dirty area
         dirtyArea.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.Euler(-90f, 0f, 0f));
 
         // Fade in next dirty area
@@ -674,11 +783,16 @@ public class GameManager : MonoBehaviour
 
         // Acoustic feedback that all areas have been cleaned
         audioSource.PlayOneShot(cleanedAllAreasClip);
+    }
 
-        // Update UI
-        //UIManager.Instance.endReasonText.text = "Alle Flächen gereinigt";
-        //UIManager.Instance.finishAllCleanedDialog.SetActive(true);
-        //UIManager.Instance.statsPanel.SetActive(true);
+    // Callback for when user has finished cleaning all dirty areas
+    public async void CleanedAllDirtyAreasT3()
+    {
+        // Stop game
+        await StopTask3();
+
+        // Acoustic feedback that all areas have been cleaned
+        audioSource.PlayOneShot(cleanedAllAreasClip);
     }
 
     // Fade in dirty area
