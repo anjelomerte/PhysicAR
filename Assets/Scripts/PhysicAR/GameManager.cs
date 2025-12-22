@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
             }
             else if (currentTask == 2)
             {
-                if (cleanedTiles >= 400)
+                if (cleanedTiles >= tilesInOneArea * 4)
                 {
                     // All numbered tiles cleaned before time limit
                     StopTask2();
@@ -429,7 +429,7 @@ public class GameManager : MonoBehaviour
         //UIManager.Instance.gameTargetToggle.SetActive(false);
 
         // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Task1_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
+        await WriteInformationToDisk($"Task1_{DateTime.Now:dd-mm_HH-mm}.csv");
 
         // Reset vars (data)
         cleanedTiles = 0;
@@ -541,11 +541,16 @@ public class GameManager : MonoBehaviour
         ManageTracking.Instance.StopTrackingGameTarget();
 
         // Reset dirty area tiles
-        dirtyArea.SetActive(false);
-        for (int i = 0; i < dirtyArea.transform.childCount; i++)
+        foreach (var area in numberedDirtyAreas)
         {
-            // Enable all tiles again
-            dirtyArea.transform.GetChild(i).gameObject.SetActive(true);
+            // Disable all numbered dirty areas
+            area.SetActive(false);
+
+            // Re-enable tiles within numbered dirty areas
+            for (int i = 0; i < area.transform.childCount; i++)
+            {
+                area.transform.GetChild(i).gameObject.SetActive(true);
+            }
         }
 
         // Update UI
@@ -554,7 +559,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.handmenuRight.SetActive(true);
 
         // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Task2_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
+        await WriteInformationToDisk($"Task2_{DateTime.Now:dd-mm_HH-mm}.csv");
 
         // Reset vars (data)
         cleanedTiles = 0;
@@ -661,7 +666,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.handmenuRight.SetActive(true);
 
         // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Task3_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
+        await WriteInformationToDisk($"Task3_{DateTime.Now:dd-mm_HH-mm}.csv");
 
         // Reset vars (data)
         cleanedTiles = 0;
