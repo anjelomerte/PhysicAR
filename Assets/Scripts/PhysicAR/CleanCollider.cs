@@ -39,7 +39,7 @@ public class CleanCollider : MonoBehaviour
 
                 // Increment number of cleaned tiles in GameManager
                 GameManager.Instance.CleanedTiles++;
-                Debug.Log(GameManager.Instance.CleanedTiles);
+                //Debug.Log(GameManager.Instance.CleanedTiles);
 
                 // Only for task 2 (static dirty areas)
                 if (GameManager.Instance.currentTask == 2)
