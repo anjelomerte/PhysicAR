@@ -113,11 +113,10 @@ public class GameManager : MonoBehaviour
     private float maxGameTime;
     [Tooltip("User specified max. game time for task 1")]
     public float task1Time = 180f;
-    [Tooltip("User specified max. game time for task 2")]
+    [Tooltip("User specified max. game time for task 2 (including time for showing fields)")]
     public float task2Time = 120f;
-    [Tooltip("User specified max. game time for task 3")]
+    [Tooltip("User specified max. game time for task 3 (including time for showing objects)")]
     public float task3Time = 120f;
-
 
     [Tooltip("Audio source used to provide acoustic feedback to user")]
     public AudioSource audioSource;
@@ -125,6 +124,12 @@ public class GameManager : MonoBehaviour
     public AudioClip cleanedSingleAreaClip;
     [Tooltip("Acousctic feedabck: User finsished cleaning all dirty areas")]
     public AudioClip taskCompletedSound;
+    [Tooltip("Distracting sound 1 played during task 3")]
+    public AudioClip distractSound1;
+    [Tooltip("Distracting sound 2 played during task 3")]
+    public AudioClip distractSound2;
+    [Tooltip("Distracting sound 3 played during task 3")]
+    public AudioClip distractSound3;
 
     [Tooltip("Directional indicator pointing to next area to clean")]
     public GameObject directionalIndicator;
@@ -643,6 +648,22 @@ public class GameManager : MonoBehaviour
         ManageTracking.Instance.StartTrackingGameTarget();
         // Enable cleaner outline by default
         UIManager.Instance.gameTargetToggle.GetComponent<PressableButton>().ForceSetToggled(true);
+
+        // Set off coroutines which play distracting noises (at equal intervals based on total time for task 3)
+        float interval = (task3Time - show3dObjectsTime) / 4f;
+        StartCoroutine(PlaySound(interval, distractSound1));
+        StartCoroutine(PlaySound(2*interval, distractSound2));
+        StartCoroutine(PlaySound(3*interval, distractSound3));
+    }
+
+    // Coroutine for playing distracting sounds
+    private IEnumerator PlaySound(float timeToPlay, AudioClip soundToPlay)
+    {
+        // Wait for specified amount of time before playing sound
+        yield return new WaitForSeconds(timeToPlay);
+
+        // Play sound
+        audioSource.PlayOneShot(soundToPlay);
     }
 
     // Stop task 3
