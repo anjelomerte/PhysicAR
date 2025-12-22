@@ -621,6 +621,7 @@ public class GameManager : MonoBehaviour
     {
         // Show user 3D objects to remember
         objectsToRemember.SetActive(true);
+        objectsToRemember.GetComponent<Solver>().enabled = true;    // Will deactivate automatically after short amount of time
 
         // Continue with task 3 after specified amount of time
         yield return new WaitForSeconds(show3dObjectsTime);

@@ -170,9 +170,7 @@ public class UIManager : MonoBehaviour
         finishedTask1Panel.GetComponent<Solver>().enabled = true;
         finishedTask2Panel.GetComponent<Solver>().enabled = true;
         finishedTask3Panel.GetComponent<Solver>().enabled = true;
-        //finishAllCleanedDialog.GetComponent<Solver>().enabled = true;
-        //finishMaxTimeDialog.GetComponent<Solver>().enabled = true;
-        //statsPanel.GetComponent<Solver>().enabled = true;
+        GameManager.Instance.objectsToRemember.GetComponent<Solver>().enabled = true;
         anchoredDialogTut.GetComponent<Solver>().enabled = true;
         insituDialogTut.GetComponent<Solver>().enabled = true;
     }
