@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("Acousctic feedabck: User finsished cleaning single dirty area")]
     public AudioClip cleanedSingleAreaClip;
     [Tooltip("Acousctic feedabck: User finsished cleaning all dirty areas")]
-    public AudioClip cleanedAllAreasClip;
+    public AudioClip taskCompletedSound;
 
     [Tooltip("Directional indicator pointing to next area to clean")]
     public GameObject directionalIndicator;
@@ -438,6 +438,9 @@ public class GameManager : MonoBehaviour
         areaBeingCleaned = 1;
         timeStamp = 0f;
         informationFrames = new();
+
+        // Acoustic feedback that task ended
+        audioSource.PlayOneShot(taskCompletedSound);
     }
 
     // Start task 2
@@ -568,6 +571,9 @@ public class GameManager : MonoBehaviour
         areaBeingCleaned = 1;
         timeStamp = 0f;
         informationFrames = new();
+
+        // Acoustic feedback that task ended
+        audioSource.PlayOneShot(taskCompletedSound);
     }
 
     // Start task 3
@@ -675,6 +681,9 @@ public class GameManager : MonoBehaviour
         areaBeingCleaned = 1;
         timeStamp = 0f;
         informationFrames = new();
+
+        // Acoustic feedback that task ended
+        audioSource.PlayOneShot(taskCompletedSound);
     }
 
     // Return to home menu, abort game if running
@@ -785,9 +794,6 @@ public class GameManager : MonoBehaviour
     {
         // Stop game
         await StopTask1();
-
-        // Acoustic feedback that all areas have been cleaned
-        audioSource.PlayOneShot(cleanedAllAreasClip);
     }
 
     // Callback for when user has finished cleaning all dirty areas
@@ -795,9 +801,6 @@ public class GameManager : MonoBehaviour
     {
         // Stop game
         await StopTask3();
-
-        // Acoustic feedback that all areas have been cleaned
-        audioSource.PlayOneShot(cleanedAllAreasClip);
     }
 
     // Fade in dirty area
