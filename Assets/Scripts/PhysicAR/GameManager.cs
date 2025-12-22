@@ -429,7 +429,7 @@ public class GameManager : MonoBehaviour
         //UIManager.Instance.gameTargetToggle.SetActive(false);
 
         // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Task1_{DateTime.Now:dd-mm_HH-mm}.csv");
+        await WriteInformationToDisk($"Task1_{DateTime.Now:dd-MM_HH-mm-ss}.csv");
 
         // Reset vars (data)
         cleanedTiles = 0;
@@ -562,7 +562,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.handmenuRight.SetActive(true);
 
         // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Task2_{DateTime.Now:dd-mm_HH-mm}.csv");
+        await WriteInformationToDisk($"Task2_{DateTime.Now:dd-MM_HH-mm-ss}.csv");
 
         // Reset vars (data)
         cleanedTiles = 0;
@@ -673,7 +673,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.handmenuRight.SetActive(true);
 
         // Write sampled information to disk using current time in name
-        await WriteInformationToDisk($"Task3_{DateTime.Now:dd-mm_HH-mm}.csv");
+        await WriteInformationToDisk($"Task3_{DateTime.Now:dd-MM_HH-mm-ss}.csv");
 
         // Reset vars (data)
         cleanedTiles = 0;
