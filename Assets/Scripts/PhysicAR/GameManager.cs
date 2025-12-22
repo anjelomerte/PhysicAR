@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
             if (cleanedTiles == 1)
             {
                 // This is the first tile of a single dirty area
-                StartedCleaningArea();
+                StartedCleaningAreaT1T3();
             }
             else if (currentTask == 1 || currentTask == 3)
             {
@@ -340,7 +340,56 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.confirmRefSurfaceButton.SetActive(false);
         UIManager.Instance.launchTask1Dialog.SetActive(true);
     }
-    
+
+    // Return to home menu, abort game if running
+    public async void ReturnHome()
+    {
+        if (taskIsRunning)
+        {
+            // Stop game
+            await StopTask1();
+        }
+
+        // Reset UI to start state (selection of game mode)
+        UIManager.Instance.ResetUI();
+
+        // Disable all tracking visuals by default
+        ManageTracking.Instance.DisableVisualizers();
+
+        // Go back to looking for reference target
+        //ManageTracking.Instance.StartTrackingRefTarget();
+    }
+
+    // Fade in dirty area
+    public IEnumerator FadeInDirtyArea(float fadeDuration, float waitTimeBeforeFadeStart = 0f)
+    {
+        // Wait before initiating fade if specified
+        yield return new WaitForSecondsRealtime(waitTimeBeforeFadeStart);
+
+        // Set starting alpha to 0
+        dirtyMats[0].color = new Color(dirtyMats[0].color.r, dirtyMats[0].color.g, dirtyMats[0].color.b, 0f);
+        dirtyMats[1].color = new Color(dirtyMats[1].color.r, dirtyMats[1].color.g, dirtyMats[1].color.b, 0f);
+
+        // Enable dirty area
+        dirtyArea.SetActive(true);
+
+        float passedTime = 0f;
+
+        while (passedTime < fadeDuration)
+        {
+            // Set alpha
+            dirtyMats[0].color = new Color(dirtyMats[0].color.r, dirtyMats[0].color.g, dirtyMats[0].color.b, Mathf.Lerp(0f, 1f, passedTime / fadeDuration));
+            dirtyMats[1].color = new Color(dirtyMats[1].color.r, dirtyMats[1].color.g, dirtyMats[1].color.b, Mathf.Lerp(0f, 1f, passedTime / fadeDuration));
+
+            // Increment passed time
+            passedTime += Time.deltaTime;
+
+            yield return null;
+        }
+    }
+
+    #region Task 1
+
     // Start task 1
     public void StartTask1()
     {
@@ -447,6 +496,17 @@ public class GameManager : MonoBehaviour
         // Acoustic feedback that task ended
         audioSource.PlayOneShot(taskCompletedSound);
     }
+
+    // Callback for when user has finished cleaning all dirty areas
+    public async void CleanedAllDirtyAreasT1()
+    {
+        // Stop game
+        await StopTask1();
+    }
+
+    #endregion
+
+    #region Task 2
 
     // Start task 2
     public void StartTask2()
@@ -581,6 +641,10 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(taskCompletedSound);
     }
 
+    #endregion
+
+    #region Task 3
+
     // Start task 3
     public void StartTask3()
     {
@@ -708,27 +772,19 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(taskCompletedSound);
     }
 
-    // Return to home menu, abort game if running
-    public async void ReturnHome()
+    // Callback for when user has finished cleaning all dirty areas
+    public async void CleanedAllDirtyAreasT3()
     {
-        if (taskIsRunning)
-        {        
-            // Stop game
-            await StopTask1();
-        }
-
-        // Reset UI to start state (selection of game mode)
-        UIManager.Instance.ResetUI();
-
-        // Disable all tracking visuals by default
-        ManageTracking.Instance.DisableVisualizers();
-
-        // Go back to looking for reference target
-        //ManageTracking.Instance.StartTrackingRefTarget();
+        // Stop game
+        await StopTask3();
     }
 
+    #endregion
+
+    #region Task 1 and 3
+
     // Callback for when user has started cleaning a single dirty area
-    public void StartedCleaningArea()
+    public void StartedCleaningAreaT1T3()
     {
         // Start measuring time and distance
         //singleAreaTime = 0f;
@@ -811,47 +867,9 @@ public class GameManager : MonoBehaviour
         dirtyArea.SetActive(true);
     }
 
-    // Callback for when user has finished cleaning all dirty areas
-    public async void CleanedAllDirtyAreasT1()
-    {
-        // Stop game
-        await StopTask1();
-    }
+    #endregion
 
-    // Callback for when user has finished cleaning all dirty areas
-    public async void CleanedAllDirtyAreasT3()
-    {
-        // Stop game
-        await StopTask3();
-    }
-
-    // Fade in dirty area
-    public IEnumerator FadeInDirtyArea(float fadeDuration, float waitTimeBeforeFadeStart = 0f)
-    {
-        // Wait before initiating fade if specified
-        yield return new WaitForSecondsRealtime(waitTimeBeforeFadeStart);
-
-        // Set starting alpha to 0
-        dirtyMats[0].color = new Color(dirtyMats[0].color.r, dirtyMats[0].color.g, dirtyMats[0].color.b, 0f);
-        dirtyMats[1].color = new Color(dirtyMats[1].color.r, dirtyMats[1].color.g, dirtyMats[1].color.b, 0f);
-
-        // Enable dirty area
-        dirtyArea.SetActive(true);
-
-        float passedTime = 0f;
-
-        while (passedTime < fadeDuration)
-        {
-            // Set alpha
-            dirtyMats[0].color = new Color(dirtyMats[0].color.r, dirtyMats[0].color.g, dirtyMats[0].color.b, Mathf.Lerp(0f, 1f, passedTime / fadeDuration));
-            dirtyMats[1].color = new Color(dirtyMats[1].color.r, dirtyMats[1].color.g, dirtyMats[1].color.b, Mathf.Lerp(0f, 1f, passedTime / fadeDuration));
-
-            // Increment passed time
-            passedTime += Time.deltaTime;
-
-            yield return null;
-        }
-    }
+    #region Data sampling and storage
 
     // Method for sampling information. Called by Update at specified framerate
     private void SampleInformation()
@@ -939,6 +957,8 @@ public class GameManager : MonoBehaviour
             Debug.LogError($"Failed wot write information to disk. Error: {e.Message}");
         }
     }
+
+    #endregion
 
     #endregion
 }
