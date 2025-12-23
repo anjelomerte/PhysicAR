@@ -120,10 +120,10 @@ public class GameManager : MonoBehaviour
 
     [Tooltip("Audio source used to provide acoustic feedback to user")]
     public AudioSource audioSource;
-    [Tooltip("Acousctic feedabck: User finsished cleaning single dirty area")]
-    public AudioClip cleanedSingleAreaClip;
-    [Tooltip("Acousctic feedabck: User finsished cleaning all dirty areas")]
-    public AudioClip taskCompletedSound;
+    [Tooltip("Acousctic feedabck (e.g. used for when objets/areas disappear, or single area cleaned)")]
+    public AudioClip mrtkNotificationSound;
+    [Tooltip("Acousctic feedabck (e.g. used for when task terminates)")]
+    public AudioClip mrtkGemSound;
     [Tooltip("Distracting sound 1 played during task 3")]
     public AudioClip distractSound1;
     [Tooltip("Distracting sound 2 played during task 3")]
@@ -494,7 +494,7 @@ public class GameManager : MonoBehaviour
         informationFrames = new();
 
         // Acoustic feedback that task ended
-        audioSource.PlayOneShot(taskCompletedSound);
+        audioSource.PlayOneShot(mrtkGemSound);
     }
 
     // Callback for when user has finished cleaning all dirty areas
@@ -565,6 +565,9 @@ public class GameManager : MonoBehaviour
 
         // Show numbered dirty areas for specified amount of time
         yield return new WaitForSeconds(showNumberedDirtyAreasTime);
+
+        // Indicate hiding of numbered areas using sound
+        audioSource.PlayOneShot(mrtkNotificationSound);
 
         // Hide numbered dirty areas again (only rendered part, still active)
         foreach (var area in numberedDirtyAreas)
@@ -638,7 +641,7 @@ public class GameManager : MonoBehaviour
         informationFrames = new();
 
         // Acoustic feedback that task ended
-        audioSource.PlayOneShot(taskCompletedSound);
+        audioSource.PlayOneShot(mrtkGemSound);
     }
 
     #endregion
@@ -694,6 +697,9 @@ public class GameManager : MonoBehaviour
 
         // Continue with task 3 after specified amount of time
         yield return new WaitForSeconds(show3dObjectsTime);
+
+        // Indicate hiding of numbered areas using sound
+        audioSource.PlayOneShot(mrtkNotificationSound);
 
         // Disable objects again
         objectsToRemember.SetActive(false);
@@ -769,7 +775,7 @@ public class GameManager : MonoBehaviour
         informationFrames = new();
 
         // Acoustic feedback that task ended
-        audioSource.PlayOneShot(taskCompletedSound);
+        audioSource.PlayOneShot(mrtkGemSound);
     }
 
     // Callback for when user has finished cleaning all dirty areas
@@ -799,7 +805,7 @@ public class GameManager : MonoBehaviour
     public void FinishedCleaningSingleAreaT1T3()
     {
         // Acoustic feedback that single area has been cleaned
-        audioSource.PlayOneShot(cleanedSingleAreaClip);
+        audioSource.PlayOneShot(mrtkNotificationSound);
 
         // Reset dirty area tiles
         dirtyArea.SetActive(false);
