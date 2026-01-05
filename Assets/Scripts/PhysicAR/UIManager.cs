@@ -143,7 +143,7 @@ public class UIManager : MonoBehaviour
         //confirmRefSurfaceButton.SetActive(false);
         homeToggle.SetActive(false);
         gameAreaToggle.SetActive(false);
-        gameTargetToggle.SetActive(false);
+        //gameTargetToggle.SetActive(false);
 
         initDialog.SetActive(true);
         launchTask1Dialog.SetActive(false);

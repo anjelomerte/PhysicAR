@@ -410,7 +410,7 @@ public class GameManager : MonoBehaviour
         // Update UI
         UIManager.Instance.launchTask1Dialog.SetActive(false);
         UIManager.Instance.homeToggle.SetActive(true);
-        UIManager.Instance.gameTargetToggle.SetActive(true);
+        //UIManager.Instance.gameTargetToggle.SetActive(true);
 
         // Start tracking game target
         ManageTracking.Instance.StartTrackingGameTarget();
@@ -476,7 +476,7 @@ public class GameManager : MonoBehaviour
 
         // Update UI
         UIManager.Instance.finishedTask1Panel.SetActive(true);
-        UIManager.Instance.gameTargetToggle.SetActive(false);
+        //UIManager.Instance.gameTargetToggle.SetActive(false);
         UIManager.Instance.handmenuRight.SetActive(true);
 
         //UIManager.Instance.cleanedAreasText.text = (areaBeingCleaned - 1).ToString();
@@ -528,7 +528,7 @@ public class GameManager : MonoBehaviour
         // Update UI
         UIManager.Instance.launchTask2Dialog.SetActive(false);
         UIManager.Instance.homeToggle.SetActive(true);
-        UIManager.Instance.gameTargetToggle.SetActive(true);
+        //UIManager.Instance.gameTargetToggle.SetActive(true);
 
         // Make sure dirty tiles are visible on game start
         foreach (var area in numberedDirtyAreas)
@@ -629,7 +629,7 @@ public class GameManager : MonoBehaviour
 
         // Update UI
         UIManager.Instance.finishedTask2Panel.SetActive(true);
-        UIManager.Instance.gameTargetToggle.SetActive(false);
+        //UIManager.Instance.gameTargetToggle.SetActive(false);
         UIManager.Instance.handmenuRight.SetActive(true);
 
         // Write sampled information to disk using current time in name
@@ -668,7 +668,7 @@ public class GameManager : MonoBehaviour
         // Update UI
         UIManager.Instance.launchTask3Dialog.SetActive(false);
         UIManager.Instance.homeToggle.SetActive(true);
-        UIManager.Instance.gameTargetToggle.SetActive(true);
+        //UIManager.Instance.gameTargetToggle.SetActive(true);
 
         // Make sure dirty tiles are visible on game start
         foreach (var component in dirtyArea.GetComponentsInChildren<Component>())
@@ -763,7 +763,7 @@ public class GameManager : MonoBehaviour
 
         // Update UI
         UIManager.Instance.finishedTask3Panel.SetActive(true);
-        UIManager.Instance.gameTargetToggle.SetActive(false);
+        //UIManager.Instance.gameTargetToggle.SetActive(false);
         UIManager.Instance.handmenuRight.SetActive(true);
 
         // Write sampled information to disk using current time in name
