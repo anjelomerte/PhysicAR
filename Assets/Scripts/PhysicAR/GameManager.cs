@@ -221,10 +221,6 @@ public class GameManager : MonoBehaviour
 
         // Hide object plate of task 3
         objectsToRemember.SetActive(false);
-
-        // Add task-specific times to total task time
-        task2Time += showNumberedDirtyAreasTime;
-        task3Time += show3dObjectsTime;
     }
 
     private async void Update()
@@ -303,6 +299,10 @@ public class GameManager : MonoBehaviour
         //UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefTargetButton.SetActive(true);
         UIManager.Instance.initDialog.SetActive(false);
+
+        // Adjust task specific times by adding show/wait times in task 2 and 3 (specified times don't include wait)
+        task2Time += showNumberedDirtyAreasTime;
+        task3Time += show3dObjectsTime;
     }
 
     // Set up game using surface as anchor

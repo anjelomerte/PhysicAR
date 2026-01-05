@@ -1,6 +1,7 @@
 using MixedReality.Toolkit.SpatialManipulation;
+using MixedReality.Toolkit.UX;
+using Newtonsoft.Json.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -92,6 +93,15 @@ public class UIManager : MonoBehaviour
     [Tooltip("Toggle which controls visualization of game target (cleaner). On handmenu")]
     public GameObject gameTargetToggle;
 
+    // Settings handmenu
+    [Tooltip("Handmenu for settings (currently only task times)")]
+    public GameObject settingsMenu;
+    [Tooltip("Time value label")]
+    public TMP_Text timeValueLabel;
+    [Tooltip("Toggle group of time settings (Index -> 0: Task 1 time, 1: Task 2 time, 2: Task 2 show fields time, 3: Task 3 time, 4: Task 3 show objects time)")]
+    public ToggleCollection timeSettingsToggles;
+
+
     #endregion
 
 
@@ -115,6 +125,53 @@ public class UIManager : MonoBehaviour
     {
         // Reset UI elements to default state
         ResetUI();
+
+        // Set internal task times based on player prefs
+        if (PlayerPrefs.HasKey("task1Time"))
+        {
+            GameManager.Instance.task1Time = PlayerPrefs.GetInt("task1Time");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("task1Time", (int)GameManager.Instance.task1Time);
+            timeValueLabel.text = GameManager.Instance.task1Time.ToString();
+        }
+        if (PlayerPrefs.HasKey("task2Time"))
+        {
+            GameManager.Instance.task2Time = PlayerPrefs.GetInt("task2Time");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("task2Time", (int)GameManager.Instance.task2Time);
+            timeValueLabel.text = GameManager.Instance.task2Time.ToString();
+        }
+        if (PlayerPrefs.HasKey("task2ShowTime"))
+        {
+            GameManager.Instance.showNumberedDirtyAreasTime = PlayerPrefs.GetInt("task2ShowTime");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("task2ShowTime", (int)GameManager.Instance.showNumberedDirtyAreasTime);
+            timeValueLabel.text = GameManager.Instance.showNumberedDirtyAreasTime.ToString();
+        }
+        if (PlayerPrefs.HasKey("task3Time"))
+        {
+            GameManager.Instance.task3Time = PlayerPrefs.GetInt("task3Time");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("task3Time", (int)GameManager.Instance.task3Time);
+            timeValueLabel.text = GameManager.Instance.task3Time.ToString();
+        }
+        if (PlayerPrefs.HasKey("task3ShowTime"))
+        {
+            GameManager.Instance.task3Time = PlayerPrefs.GetInt("task3ShowTime");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("task3ShowTime", (int)GameManager.Instance.show3dObjectsTime);
+            timeValueLabel.text = GameManager.Instance.show3dObjectsTime.ToString();
+        }
     }
 
     #endregion
@@ -144,6 +201,7 @@ public class UIManager : MonoBehaviour
         homeToggle.SetActive(false);
         gameAreaToggle.SetActive(false);
         //gameTargetToggle.SetActive(false);
+        settingsMenu.SetActive(false);
 
         initDialog.SetActive(true);
         launchTask1Dialog.SetActive(false);
@@ -180,10 +238,118 @@ public class UIManager : MonoBehaviour
 
     #region Callbacks
 
-    // Called if user changed/saves new task times in main menu
-    public void ChangedTaskTimeSettings()
+    // Called when a task time setting toggle is toggled
+    public void ToggledTaskTimeSetting(int value)
     {
+        // Display currently internally set time
+        switch (value)
+        {
+            case 0:
+                timeValueLabel.text = GameManager.Instance.task1Time.ToString();
+                break;
+            case 1:
+                timeValueLabel.text = GameManager.Instance.task2Time.ToString();
+                break;
+            case 2:
+                timeValueLabel.text = GameManager.Instance.showNumberedDirtyAreasTime.ToString();
+                break;
+            case 3:
+                timeValueLabel.text = GameManager.Instance.task3Time.ToString();
+                break;
+            case 4:
+                timeValueLabel.text = GameManager.Instance.show3dObjectsTime.ToString();
+                break;
+            default:
+                break;
+        }
+    }
 
+    // Called when user increases task time
+    public void IncreasedTaskTime()
+    {
+        // Calculate new value
+        int value = int.Parse(timeValueLabel.text) + 5;
+
+        // Upper limit
+        if (value > 1000)
+        {
+            return;
+        }
+
+        // Update visually
+        timeValueLabel.text = value.ToString();
+
+        // Update internally
+        switch (timeSettingsToggles.CurrentIndex)
+        {
+            case 0:
+                GameManager.Instance.task1Time = value;
+                break;
+            case 1:
+                GameManager.Instance.task2Time = value;
+                break;
+            case 2:
+                GameManager.Instance.showNumberedDirtyAreasTime = value;
+                break;
+            case 3:
+                GameManager.Instance.task3Time = value;
+                break;
+            case 4:
+                GameManager.Instance.show3dObjectsTime = value;
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Called when user decreases task time
+    public void DecreasedTaskTime()
+    {
+        // Calculate new value
+        int value = int.Parse(timeValueLabel.text) - 5;
+
+        // Lower limit
+        if (value < 5)
+        {
+            return;
+        }
+
+        // Update visually
+        timeValueLabel.text = value.ToString();
+
+        // Update internally
+        switch (timeSettingsToggles.CurrentIndex)
+        {
+            case 0:
+                GameManager.Instance.task1Time = value;
+                break;
+            case 1:
+                GameManager.Instance.task2Time = value;
+                break;
+            case 2:
+                GameManager.Instance.showNumberedDirtyAreasTime = value;
+                break;
+            case 3:
+                GameManager.Instance.task3Time = value;
+                break;
+            case 4:
+                GameManager.Instance.show3dObjectsTime = value;
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Called if user saves new task times configured via settings handmenu in main menu
+    public void SaveTaskTimes()
+    {
+        // Update in player prefs
+        PlayerPrefs.SetInt("task1Time", (int)GameManager.Instance.task1Time);
+        PlayerPrefs.SetInt("task2Time", (int)GameManager.Instance.task2Time);
+        PlayerPrefs.SetInt("task2ShowTime", (int)GameManager.Instance.showNumberedDirtyAreasTime);
+        PlayerPrefs.SetInt("task3Time", (int)GameManager.Instance.task3Time);
+        PlayerPrefs.SetInt("task3ShowTime", (int)GameManager.Instance.show3dObjectsTime);
+        PlayerPrefs.Save();
     }
 
     #endregion
