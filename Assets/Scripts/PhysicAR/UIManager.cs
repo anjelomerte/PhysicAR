@@ -132,10 +132,10 @@ public class UIManager : MonoBehaviour
 
         //Right handmenu
         triggerEyeCalibButton.SetActive(true);
-        initMeshToggle.SetActive(true);
+        initMeshToggle.SetActive(false);
 
         // Left handmenu
-        tutorialButton.SetActive(true);
+        tutorialButton.SetActive(false);
         returnFromTutButton.SetActive(false);
         anchorSessionButton.SetActive(true);
         //surfaceBasedStartToggle.SetActive(true);
@@ -173,6 +173,17 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.objectsToRemember.GetComponent<Solver>().enabled = true;
         anchoredDialogTut.GetComponent<Solver>().enabled = true;
         insituDialogTut.GetComponent<Solver>().enabled = true;
+    }
+
+    #endregion
+
+
+    #region Callbacks
+
+    // Called if user changed/saves new task times in main menu
+    public void ChangedTaskTimeSettings()
+    {
+
     }
 
     #endregion
