@@ -7,7 +7,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -113,9 +112,9 @@ public class GameManager : MonoBehaviour
     private float maxGameTime;
     [Tooltip("User specified max. game time for task 1")]
     public float task1Time = 180f;
-    [Tooltip("User specified max. game time for task 2 (including time for showing fields)")]
+    [Tooltip("User specified max. game time for task 2 (time for showing fields will be added automatically)")]
     public float task2Time = 120f;
-    [Tooltip("User specified max. game time for task 3 (including time for showing objects)")]
+    [Tooltip("User specified max. game time for task 3 (time for showing objects will be added automatically)")]
     public float task3Time = 120f;
 
     [Tooltip("Audio source used to provide acoustic feedback to user")]
@@ -222,6 +221,10 @@ public class GameManager : MonoBehaviour
 
         // Hide object plate of task 3
         objectsToRemember.SetActive(false);
+
+        // Add task-specific times to total task time
+        task2Time += showNumberedDirtyAreasTime;
+        task3Time += show3dObjectsTime;
     }
 
     private async void Update()
