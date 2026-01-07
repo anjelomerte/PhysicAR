@@ -111,11 +111,11 @@ public class GameManager : MonoBehaviour
     [Tooltip("Dynamic max. game time depending on task in seconds (T1: 180, T2: 120, T3: 120)")]
     private float maxGameTime;
     [Tooltip("User specified max. game time for task 1")]
-    public float task1Time = 180f;
-    [Tooltip("User specified max. game time for task 2 (time for showing fields will be added automatically)")]
-    public float task2Time = 120f;
-    [Tooltip("User specified max. game time for task 3 (time for showing objects will be added automatically)")]
-    public float task3Time = 120f;
+    public float task1Time;
+    [Tooltip("User specified max. game time for task 2 (w/o time for showing fields)")]
+    public float task2Time;
+    [Tooltip("User specified max. game time for task 3 (w/o time for showing objects)")]
+    public float task3Time;
 
     [Tooltip("Audio source used to provide acoustic feedback to user")]
     public AudioSource audioSource;
@@ -301,8 +301,8 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.initDialog.SetActive(false);
 
         // Adjust task specific times by adding show/wait times in task 2 and 3 (specified times don't include wait)
-        task2Time += showNumberedDirtyAreasTime;
-        task3Time += show3dObjectsTime;
+        //task2Time += showNumberedDirtyAreasTime;
+        //task3Time += show3dObjectsTime;
     }
 
     // Set up game using surface as anchor
@@ -519,7 +519,7 @@ public class GameManager : MonoBehaviour
         currentTask = 2;
 
         // Set max. game time according to task 1
-        maxGameTime = task2Time;
+        maxGameTime = task2Time + showNumberedDirtyAreasTime;
 
         // Disable far rays
         UIManager.Instance.leftHandRay.SetActive(false);
@@ -659,7 +659,7 @@ public class GameManager : MonoBehaviour
         currentTask = 3;
 
         // Set max. game time according to task 1
-        maxGameTime = task1Time;
+        maxGameTime = task3Time + show3dObjectsTime;
 
         // Disable far rays
         UIManager.Instance.leftHandRay.SetActive(false);

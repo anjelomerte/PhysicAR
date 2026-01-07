@@ -165,7 +165,7 @@ public class UIManager : MonoBehaviour
         }
         if (PlayerPrefs.HasKey("task3ShowTime"))
         {
-            GameManager.Instance.task3Time = PlayerPrefs.GetInt("task3ShowTime");
+            GameManager.Instance.show3dObjectsTime = PlayerPrefs.GetInt("task3ShowTime");
         }
         else
         {
