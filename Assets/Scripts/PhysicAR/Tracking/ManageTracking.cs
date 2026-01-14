@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using Vuforia;
 
@@ -10,6 +9,8 @@ public class ManageTracking : MonoBehaviour
 
     [Tooltip("Reference image target used to anchor AR sesssion")]
     public ImageTargetBehaviour referenceImageTarget;
+    [Tooltip("Shadow object copying reference image target transform")]
+    public GameObject refTargetShadow;
     [Tooltip("Visualizer for reference image target")]
     public GameObject referenceTargetVisualizer;
     [Tooltip("Confirmation window for reference image target")]
@@ -32,10 +33,6 @@ public class ManageTracking : MonoBehaviour
 
     [Tooltip("Total distance covered by game target (cleaner) during game running")]
     public float totalCleanDistance = 0f;
-    [Tooltip("Flag to measure distance")]
-    private bool measureDistance = false;
-    [Tooltip("Previous position of game target (cleaner) to calculate covered distance between frames")]
-    private Vector3 prevPosCleaner;
 
     #endregion
 
@@ -60,18 +57,18 @@ public class ManageTracking : MonoBehaviour
         // Disable image targets by default
         referenceImageTarget.enabled = false;
         gameImageTarget.enabled = false;
+
+        // Don't show reference target shadow objects by default (enabled on image target enabled)
+        refTargetShadow.SetActive(false);
     }
 
     private void Update()
     {
-        // Measure distance clenaer is covering if game started
-        if (measureDistance)
+        // Update "shadow" of reference target if image target is currently tracked
+        if (referenceImageTarget.enabled)
         {
-            // Calcuate distance
-            totalCleanDistance += Vector3.Distance(prevPosCleaner, gameImageTarget.transform.position);
-
-            // Update previous position
-            prevPosCleaner = gameImageTarget.transform.position;
+            refTargetShadow.SetActive(true);
+            refTargetShadow.transform.SetPositionAndRotation(referenceImageTarget.transform.position, referenceImageTarget.transform.rotation);
         }
     }
 
@@ -107,10 +104,6 @@ public class ManageTracking : MonoBehaviour
     {
         // Enable reference image target
         referenceImageTarget.enabled = true;
-
-        // Align game area relative to ref target
-        gameArea3x4.transform.SetLocalPositionAndRotation(defaultOffset, Quaternion.identity);
-        gameArea2x2.transform.SetLocalPositionAndRotation(defaultOffset, Quaternion.identity);
     }
 
     // Stop tracking session reference target. User confirmed correct detection
@@ -119,24 +112,24 @@ public class ManageTracking : MonoBehaviour
         // Disable reference image target
         referenceImageTarget.enabled = false;
 
-        // Make sure reference target stays visible
-        foreach (var mRenderer in referenceTargetVisualizer.GetComponentsInChildren<MeshRenderer>())
-        {
-            mRenderer.enabled = true;
-        }
-        referenceTargetVisualizer.SetActive(true);
+        //// Make sure reference target stays visible
+        //foreach (var mRenderer in referenceTargetVisualizer.GetComponentsInChildren<MeshRenderer>())
+        //{
+        //    mRenderer.enabled = true;
+        //}
+        //referenceTargetVisualizer.SetActive(true);
 
-        // Make sure game area(s) stay visible
-        gameAreaVisualizer3x4.SetActive(true);
-        foreach (var mRenderer in gameAreaVisualizer3x4.GetComponentsInChildren<MeshRenderer>())
-        {
-            mRenderer.enabled = true;
-        }
-        gameAreaVisualizer2x2.SetActive(true);
-        foreach (var mRenderer in gameAreaVisualizer2x2.GetComponentsInChildren<MeshRenderer>())
-        {
-            mRenderer.enabled = true;
-        }
+        //// Make sure game area(s) stay visible
+        //gameAreaVisualizer3x4.SetActive(true);
+        //foreach (var mRenderer in gameAreaVisualizer3x4.GetComponentsInChildren<MeshRenderer>())
+        //{
+        //    mRenderer.enabled = true;
+        //}
+        //gameAreaVisualizer2x2.SetActive(true);
+        //foreach (var mRenderer in gameAreaVisualizer2x2.GetComponentsInChildren<MeshRenderer>())
+        //{
+        //    mRenderer.enabled = true;
+        //}
 
         // Update UI
         UIManager.Instance.confirmRefTargetButton.SetActive(false);
