@@ -21,13 +21,32 @@ public class ManageTracking : MonoBehaviour
     [Tooltip("Visualizer for game target")]
     public GameObject gameTargetVisualizer;
     [Tooltip("3x4 game area object. Contains game area visualizer and dirty areas")]
+
     public GameObject gameArea3x4;
-    [Tooltip("2x2 game area object. Contains game area visualizer and dirty areas")]
-    public GameObject gameArea2x2;
+    [Tooltip("Top left corner of 3x4 field")]
+    public Transform topLeft3x4;
+    [Tooltip("Top right corner of 3x4 field")]
+    public Transform topRight3x4;
+    [Tooltip("Bottm left corner of 3x4 field")]
+    public Transform bottomLeft3x4;
+    [Tooltip("Bottom right corner of 3x4 field")]
+    public Transform bottomRight3x4;
     [Tooltip("Visualizer for 3x4 game area")]
     public GameObject gameAreaVisualizer3x4;
+
+    [Tooltip("2x2 game area object. Contains game area visualizer and dirty areas")]
+    public GameObject gameArea2x2;
+    [Tooltip("Top left corner of 2x2 field")]
+    public Transform topLeft2x2;
+    [Tooltip("Top right corner of 2x2 field")]
+    public Transform topRight2x2;
+    [Tooltip("Bottm left corner of 2x2 field")]
+    public Transform bottomLeft2x2;
+    [Tooltip("Bottom right corner of 2x2 field")]
+    public Transform bottomRight2x2;
     [Tooltip("Visualizer for 2x2 game area")]
     public GameObject gameAreaVisualizer2x2;
+    
     [Tooltip("Default offset of game area when in image target ref anchoring mode")]
     public Vector3 defaultOffset = Vector3.zero;
 

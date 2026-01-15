@@ -139,18 +139,21 @@ public class GameManager : MonoBehaviour
     [Serializable, Tooltip("Structure used to store relevant information")]
     public struct InformationFrame
     {
-        public float Timestamp;         // Time since start of game
-        public int AreaID;              // Number of area being cleaned
+        public float Timestamp;             // Time since start of game
+        public int AreaID;                  // Number of area being cleaned
 
-        public int CleanerIsTracked;    // Whether cleaner is being tracked
-        public Vector3 CleanerPos;      // Position of cleaner
+        public int CleanerIsTracked;        // Whether cleaner is being tracked
+        public Vector3 CleanerPos;          // Position of cleaner
 
-        public Vector3 HeadPos;         // Position of user head
-        public Quaternion HeadRot;      // Rotation of user head
-        public Vector3 LeftWristPos;    // Position of user left wrist
-        //public Quaternion LeftWristRot; // Rotation of user left wrist
-        public Vector3 RightWristPos;    // Position of user right wrist
-        //public Quaternion RightWristRot; // Rotation of user right wrist
+        public Vector3 HeadPos;             // Position of user head
+        public Quaternion HeadRot;          // Rotation of user head
+        public Vector3 LeftWristPos;        // Position of user left wrist
+        //public Quaternion LeftWristRot;   // Rotation of user left wrist
+        public Vector3 RightWristPos;       // Position of user right wrist
+        //public Quaternion RightWristRot;  // Rotation of user right wrist
+
+        public Vector3 fieldTopLeft;        // Position of top left corner of current playing field
+        public Vector3 fieldBottomRight;    // Position of bottom right corner of current playing field
     }
 
     // Information bits and necessary additional vars to determine them
@@ -908,6 +911,22 @@ public class GameManager : MonoBehaviour
         rightWristPos = right ? rightWrist.Position : Vector3.zero;
         //rightWristRot = right ? rightWrist.Rotation : Quaternion.identity;
 
+        // Get current playing field top left and bottom right coordinates
+        Vector3 topLeft;
+        Vector3 bottomRight;
+        if (currentTask == 1)
+        {
+            // Task 1 (3x4)
+            topLeft = ManageTracking.Instance.topLeft3x4.position;
+            bottomRight = ManageTracking.Instance.bottomRight3x4.position;
+        }
+        else
+        {
+            // Either task 2 or 3 (both 2x2)
+            topLeft = ManageTracking.Instance.topLeft2x2.position;
+            bottomRight = ManageTracking.Instance.bottomRight2x2.position;
+        }
+
         // Create information frame based on current conditions
         InformationFrame informationFrame = new InformationFrame
         {
@@ -921,6 +940,9 @@ public class GameManager : MonoBehaviour
             //LeftWristRot = leftWristRot,
             RightWristPos = rightWristPos,
             //RightWristRot = rightWristRot
+
+            fieldTopLeft = topLeft,
+            fieldBottomRight = bottomRight,
         };
 
         // Save information
@@ -940,7 +962,9 @@ public class GameManager : MonoBehaviour
         sb.AppendLine("Timestamp,AreaID,CleanerIsTracked,CleanerX,CleanerY,CleanerZ," +
                       "HeadX,HeadY,HeadZ,HeadRotX,HeadRotY,HeadRotZ,HeadRotW," +
                       "LeftWristX,LeftWristY,LeftWristZ," +
-                      "RightWristX,RightWristY,RightWristZ");
+                      "RightWristX,RightWristY,RightWristZ," +
+                      "TopLeftX,TopLeftY,TopLeftZ," +
+                      "BottomRightX,BottomRightY,BottomRightZ");
 
         // Build each line of information
         foreach (var info in informationFrames)
@@ -950,8 +974,10 @@ public class GameManager : MonoBehaviour
                           $"{info.HeadPos.x.ToString(CultureInfo.InvariantCulture)},{info.HeadPos.y.ToString(CultureInfo.InvariantCulture)},{info.HeadPos.z.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.x.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.y.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.z.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.w.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.LeftWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.z.ToString(CultureInfo.InvariantCulture)}," +
                           //$"{info.LeftWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.w.ToString(CultureInfo.InvariantCulture)}," +
-                          $"{info.RightWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.z.ToString(CultureInfo.InvariantCulture)}");
-            //$"{info.RightWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.w.ToString(CultureInfo.InvariantCulture)}");
+                          $"{info.RightWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.z.ToString(CultureInfo.InvariantCulture)}" + 
+                          //$"{info.RightWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.w.ToString(CultureInfo.InvariantCulture)}");
+                          $"{info.fieldTopLeft.x.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.y.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.z.ToString(CultureInfo.InvariantCulture)}" +
+                          $"{info.fieldBottomRight.x.ToString(CultureInfo.InvariantCulture)},{info.fieldBottomRight.y.ToString(CultureInfo.InvariantCulture)},{info.fieldBottomRight.z.ToString(CultureInfo.InvariantCulture)}");  
         }
 
         // Write information string to file asynchronously
