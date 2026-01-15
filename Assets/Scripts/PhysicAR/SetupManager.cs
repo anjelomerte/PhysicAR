@@ -37,6 +37,12 @@ public class SetupManager : MonoBehaviour
 #endif
     }
 
+    // Trigger hand (max. distance) calibration
+    public void TriggerHandCalibration()
+    {
+
+    }
+
     // Toggle meshing during setup to generate initial mesh to use during tutorial
     public void ToggleMesh()
     {
