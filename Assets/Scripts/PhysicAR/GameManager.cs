@@ -959,7 +959,7 @@ public class GameManager : MonoBehaviour
         StringBuilder sb = new StringBuilder();
 
         // Define header
-        sb.AppendLine("Timestamp,AreaID,CleanerIsTracked,CleanerX,CleanerY,CleanerZ," +
+        sb.AppendLine("Timestamp,CleanerX,CleanerY,CleanerZ," +
                       "HeadX,HeadY,HeadZ,HeadRotX,HeadRotY,HeadRotZ,HeadRotW," +
                       "LeftWristX,LeftWristY,LeftWristZ," +
                       "RightWristX,RightWristY,RightWristZ," +
@@ -969,14 +969,14 @@ public class GameManager : MonoBehaviour
         // Build each line of information
         foreach (var info in informationFrames)
         {
-            sb.AppendLine($"{info.Timestamp.ToString(CultureInfo.InvariantCulture)},{info.AreaID.ToString(CultureInfo.InvariantCulture)},{info.CleanerIsTracked.ToString(CultureInfo.InvariantCulture)}," +
+            sb.AppendLine($"{info.Timestamp.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.CleanerPos.x.ToString(CultureInfo.InvariantCulture)},{info.CleanerPos.y.ToString(CultureInfo.InvariantCulture)},{info.CleanerPos.z.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.HeadPos.x.ToString(CultureInfo.InvariantCulture)},{info.HeadPos.y.ToString(CultureInfo.InvariantCulture)},{info.HeadPos.z.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.x.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.y.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.z.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.w.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.LeftWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.z.ToString(CultureInfo.InvariantCulture)}," +
                           //$"{info.LeftWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.w.ToString(CultureInfo.InvariantCulture)}," +
-                          $"{info.RightWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.z.ToString(CultureInfo.InvariantCulture)}" + 
+                          $"{info.RightWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.z.ToString(CultureInfo.InvariantCulture)}," + 
                           //$"{info.RightWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.w.ToString(CultureInfo.InvariantCulture)}");
-                          $"{info.fieldTopLeft.x.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.y.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.z.ToString(CultureInfo.InvariantCulture)}" +
+                          $"{info.fieldTopLeft.x.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.y.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.z.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.fieldBottomRight.x.ToString(CultureInfo.InvariantCulture)},{info.fieldBottomRight.y.ToString(CultureInfo.InvariantCulture)},{info.fieldBottomRight.z.ToString(CultureInfo.InvariantCulture)}");  
         }
 
