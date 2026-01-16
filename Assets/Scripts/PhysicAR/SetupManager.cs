@@ -1,10 +1,16 @@
-#if ENABLE_WINMD_SUPPORT
 using System;
-#endif
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using MixedReality.Toolkit.Subsystems;
+using UnityEngine.XR;
+using MixedReality.Toolkit;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Globalization;
+using System.Text;
+using System.IO;
 
 public class SetupManager : MonoBehaviour
 {
@@ -31,10 +37,26 @@ public class SetupManager : MonoBehaviour
     [Tooltip("Finished hand calibration audio sound")]
     public AudioClip finishedHandCalibSound;
 
+    [Tooltip("Hands aggergator subsystem used to access joint data e.g. wrist pose")]
+    private HandsAggregatorSubsystem handAggregator;
+
+    [Tooltip("List of cached head positions during hand calibration")]
+    private List<Vector3> headPositions;
+    [Tooltip("List of cached left hand positions during hand calibration")]
+    private List<Vector3> leftHandPositions;
+    [Tooltip("List of cached right hand positions during hand calibration")]
+    private List<Vector3> rightHandPositions;
+
     #endregion
 
 
     #region Unity lifecycle
+
+    private void Start()
+    {
+        // Cache hands aggergator for getting wrist poses later
+        handAggregator = XRSubsystemHelpers.GetFirstRunningSubsystem<HandsAggregatorSubsystem>();
+    }
 
     #endregion
 
@@ -85,6 +107,11 @@ public class SetupManager : MonoBehaviour
         handCalibCountdownText.gameObject.SetActive(false);
         handCalibInstructText.gameObject.SetActive(true);
 
+        // Initialize containers
+        headPositions = new();
+        leftHandPositions = new();
+        rightHandPositions = new();
+
         // Start hand calibration routine
         StartCoroutine(CalibrateHandDistance());
     }
@@ -96,12 +123,22 @@ public class SetupManager : MonoBehaviour
 
         while (timer > 0f)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
 
             // Adjust timer
-            timer -= 0.5f;
+            timer -= 0.25f;
 
-            // Sample head-hand distance
+            // Sample head and hand positions
+            bool left = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.LeftHand, out HandJointPose leftWrist);
+            Vector3 leftWristPos = left ? leftWrist.Position : Vector3.zero;
+            bool right = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.RightHand, out HandJointPose rightWrist);
+            Vector3 rightWristPos = right ? rightWrist.Position : Vector3.zero;
+            Vector3 headPos = Camera.main.transform.position;
+
+            // Cache these values
+            headPositions.Add(headPos);
+            leftHandPositions.Add(leftWristPos);
+            rightHandPositions.Add(rightWristPos);
         }
 
         // Finished calibration, play sound
@@ -114,6 +151,45 @@ public class SetupManager : MonoBehaviour
 
         // Enable handmenu again
         UIManager.Instance.handmenuLeft.SetActive(true);
+
+        // Store information to disk
+        WriteInformationToDisk($"HandCalibration_{DateTime.Now:dd-MM_HH-mm-ss}.csv");
+    }
+
+    // Method for writing sampled information to disk
+    public async Task WriteInformationToDisk(string filename)
+    {
+        // Determine storage location
+        string filePath = Path.Combine(Application.persistentDataPath, filename);
+
+        // Start building .cvs file using StringBuilder which is more efficient in terms of memory allocation for string building
+        StringBuilder sb = new StringBuilder();
+
+        // Define header
+        sb.AppendLine("HeadX,HeadY,HeadZ" +
+                      "LeftWristX,LeftWristY,LeftWristZ," +
+                      "RightWristX,RightWristY,RightWristZ");
+
+        // Build each line of information
+        for (int i = 0; i < headPositions.Count; i++)
+        {
+            sb.AppendLine($"{headPositions[i].x.ToString(CultureInfo.InvariantCulture)},{headPositions[i].y.ToString(CultureInfo.InvariantCulture)},{headPositions[i].z.ToString(CultureInfo.InvariantCulture)}," +
+                          $"{leftHandPositions[i].x.ToString(CultureInfo.InvariantCulture)},{leftHandPositions[i].y.ToString(CultureInfo.InvariantCulture)},{leftHandPositions[i].z.ToString(CultureInfo.InvariantCulture)}," +
+                          //$"{info.LeftWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.w.ToString(CultureInfo.InvariantCulture)}," +
+                          $"{rightHandPositions[i].x.ToString(CultureInfo.InvariantCulture)},{rightHandPositions[i].y.ToString(CultureInfo.InvariantCulture)},{rightHandPositions[i].z.ToString(CultureInfo.InvariantCulture)}");
+        }
+
+        // Write information string to file asynchronously
+        try
+        {
+            // Ensure writer is disposed when finished
+            using StreamWriter writer = new StreamWriter(filePath, false, Encoding.UTF8);
+            await writer.WriteAsync(sb.ToString());
+        }
+        catch (IOException e)
+        {
+            Debug.LogError($"Failed wot write hand calibration information to disk. Error: {e.Message}");
+        }
     }
 
     // Toggle meshing during setup to generate initial mesh to use during tutorial
