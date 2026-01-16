@@ -301,7 +301,6 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.anchorSessionButton.SetActive(false);
         //UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefTargetButton.SetActive(true);
-        UIManager.Instance.initDialog.SetActive(false);
 
         // Adjust task specific times by adding show/wait times in task 2 and 3 (specified times don't include wait)
         //task2Time += showNumberedDirtyAreasTime;
@@ -332,7 +331,6 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.anchorSessionButton.SetActive(false);
         UIManager.Instance.surfaceBasedStartToggle.SetActive(false);
         UIManager.Instance.confirmRefSurfaceButton.SetActive(true);
-        UIManager.Instance.initDialog.SetActive(false);
     }
 
     public void CompleteSurfaceBasedSetup()

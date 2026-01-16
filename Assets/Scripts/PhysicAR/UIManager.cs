@@ -15,9 +15,6 @@ public class UIManager : MonoBehaviour
     [Tooltip("Right hand far ray")]
     public GameObject rightHandRay;
 
-    [Tooltip("Initial setup dialog displayed to user")]
-    public GameObject initDialog;
-
     // Tutorial
     [Tooltip("Starting dialog of tutorial")]
     public GameObject startDialogTut;
@@ -60,6 +57,12 @@ public class UIManager : MonoBehaviour
     public TMP_Text timesPerArea;
     [Tooltip("Distances travelled to clean each single area in stats panel")]
     public TMP_Text distancesPerArea;
+
+    // Hand calibration
+    [Tooltip("Dialog before calibrating hand distance")]
+    public GameObject handCalibDialog;
+    [Tooltip("Countdown panel for hand calibration")]
+    public GameObject handCalibCountDown;
 
     // Handmenu
     [Tooltip("Handmenu left")]
@@ -203,7 +206,6 @@ public class UIManager : MonoBehaviour
         //gameTargetToggle.SetActive(false);
         settingsMenu.SetActive(false);
 
-        initDialog.SetActive(true);
         launchTask1Dialog.SetActive(false);
         launchTask2Dialog.SetActive(false);
         launchTask3Dialog.SetActive(false);
@@ -214,6 +216,9 @@ public class UIManager : MonoBehaviour
         //finishMaxTimeDialog.SetActive(false);
         //statsPanel.SetActive(false);
 
+        handCalibDialog.SetActive(false);
+        handCalibCountDown.SetActive(false);
+
         startDialogTut.SetActive(false);
         buttonDialogTut.SetActive(false);
         solvedDialogTut.SetActive(false);
@@ -222,12 +227,8 @@ public class UIManager : MonoBehaviour
         finishedDialogTut.SetActive(false);
 
         // Enable all spatial solvers by default (because some panels disable solvers)
-        launchTask1Dialog.GetComponent<Solver>().enabled = true;
-        launchTask2Dialog.GetComponent<Solver>().enabled = true;
-        launchTask3Dialog.GetComponent<Solver>().enabled = true;
-        finishedTask1Panel.GetComponent<Solver>().enabled = true;
-        finishedTask2Panel.GetComponent<Solver>().enabled = true;
-        finishedTask3Panel.GetComponent<Solver>().enabled = true;
+        handCalibDialog.GetComponent<Solver>().enabled = true;
+        handCalibCountDown.GetComponent<Solver>().enabled = true;
         GameManager.Instance.objectsToRemember.GetComponent<Solver>().enabled = true;
         anchoredDialogTut.GetComponent<Solver>().enabled = true;
         insituDialogTut.GetComponent<Solver>().enabled = true;
