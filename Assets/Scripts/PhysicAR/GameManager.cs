@@ -900,13 +900,13 @@ public class GameManager : MonoBehaviour
         headRot = Camera.main.transform.rotation;
 
         // Determine left wrist pose
-        bool left = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.LeftHand, out HandJointPose leftWrist);
-        leftWristPos = left ? leftWrist.Position : Vector3.zero;
+        //bool left = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.LeftHand, out HandJointPose leftWrist);
+        //leftWristPos = left ? leftWrist.Position : Vector3.zero;
         //leftWristRot = left ? leftWrist.Rotation : Quaternion.identity;
 
         // Determine right wrist pose
-        bool right = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.RightHand, out HandJointPose rightWrist);
-        rightWristPos = right ? rightWrist.Position : Vector3.zero;
+        //bool right = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.RightHand, out HandJointPose rightWrist);
+        //rightWristPos = right ? rightWrist.Position : Vector3.zero;
         //rightWristRot = right ? rightWrist.Rotation : Quaternion.identity;
 
         // Get current playing field top left and bottom right coordinates
@@ -934,9 +934,9 @@ public class GameManager : MonoBehaviour
             CleanerPos = cleanerPos,
             HeadPos = headPos,
             HeadRot = headRot,
-            LeftWristPos = leftWristPos,
+            //LeftWristPos = leftWristPos,
             //LeftWristRot = leftWristRot,
-            RightWristPos = rightWristPos,
+            //RightWristPos = rightWristPos,
             //RightWristRot = rightWristRot
 
             fieldTopLeft = topLeft,
@@ -959,8 +959,8 @@ public class GameManager : MonoBehaviour
         // Define header
         sb.AppendLine("Timestamp,CleanerX,CleanerY,CleanerZ," +
                       "HeadX,HeadY,HeadZ,HeadRotX,HeadRotY,HeadRotZ,HeadRotW," +
-                      "LeftWristX,LeftWristY,LeftWristZ," +
-                      "RightWristX,RightWristY,RightWristZ," +
+                      //"LeftWristX,LeftWristY,LeftWristZ," +
+                      //"RightWristX,RightWristY,RightWristZ," +
                       "TopLeftX,TopLeftY,TopLeftZ," +
                       "BottomRightX,BottomRightY,BottomRightZ");
 
@@ -970,9 +970,9 @@ public class GameManager : MonoBehaviour
             sb.AppendLine($"{info.Timestamp.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.CleanerPos.x.ToString(CultureInfo.InvariantCulture)},{info.CleanerPos.y.ToString(CultureInfo.InvariantCulture)},{info.CleanerPos.z.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.HeadPos.x.ToString(CultureInfo.InvariantCulture)},{info.HeadPos.y.ToString(CultureInfo.InvariantCulture)},{info.HeadPos.z.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.x.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.y.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.z.ToString(CultureInfo.InvariantCulture)},{info.HeadRot.w.ToString(CultureInfo.InvariantCulture)}," +
-                          $"{info.LeftWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.z.ToString(CultureInfo.InvariantCulture)}," +
+                          //$"{info.LeftWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristPos.z.ToString(CultureInfo.InvariantCulture)}," +
                           //$"{info.LeftWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.w.ToString(CultureInfo.InvariantCulture)}," +
-                          $"{info.RightWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.z.ToString(CultureInfo.InvariantCulture)}," + 
+                          //$"{info.RightWristPos.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristPos.z.ToString(CultureInfo.InvariantCulture)}," + 
                           //$"{info.RightWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.RightWristRot.w.ToString(CultureInfo.InvariantCulture)}");
                           $"{info.fieldTopLeft.x.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.y.ToString(CultureInfo.InvariantCulture)},{info.fieldTopLeft.z.ToString(CultureInfo.InvariantCulture)}," +
                           $"{info.fieldBottomRight.x.ToString(CultureInfo.InvariantCulture)},{info.fieldBottomRight.y.ToString(CultureInfo.InvariantCulture)},{info.fieldBottomRight.z.ToString(CultureInfo.InvariantCulture)}");  
