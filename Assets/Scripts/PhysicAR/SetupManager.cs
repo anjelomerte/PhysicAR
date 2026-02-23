@@ -42,10 +42,8 @@ public class SetupManager : MonoBehaviour
 
     [Tooltip("List of cached head positions during hand calibration")]
     private List<Vector3> headPositions;
-    [Tooltip("List of cached left hand positions during hand calibration")]
-    private List<Vector3> leftHandPositions;
-    [Tooltip("List of cached right hand positions during hand calibration")]
-    private List<Vector3> rightHandPositions;
+    [Tooltip("List of cached game target positions during calibration")]
+    private List<Vector3> gameTargetPositions;
 
     #endregion
 
@@ -109,8 +107,7 @@ public class SetupManager : MonoBehaviour
 
         // Initialize containers
         headPositions = new();
-        leftHandPositions = new();
-        rightHandPositions = new();
+        gameTargetPositions = new();
 
         // Start hand calibration routine
         StartCoroutine(CalibrateHandDistance());
@@ -129,16 +126,16 @@ public class SetupManager : MonoBehaviour
             timer -= 0.25f;
 
             // Sample head and hand positions
-            bool left = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.LeftHand, out HandJointPose leftWrist);
-            Vector3 leftWristPos = left ? leftWrist.Position : Vector3.zero;
-            bool right = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.RightHand, out HandJointPose rightWrist);
-            Vector3 rightWristPos = right ? rightWrist.Position : Vector3.zero;
+            //bool left = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.LeftHand, out HandJointPose leftWrist);
+            //Vector3 leftWristPos = left ? leftWrist.Position : Vector3.zero;
+            //bool right = handAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.RightHand, out HandJointPose rightWrist);
+            //Vector3 rightWristPos = right ? rightWrist.Position : Vector3.zero;
             Vector3 headPos = Camera.main.transform.position;
+            Vector3 cleanerPos = ManageTracking.Instance.gameImageTarget.transform.position;
 
             // Cache these values
             headPositions.Add(headPos);
-            leftHandPositions.Add(leftWristPos);
-            rightHandPositions.Add(rightWristPos);
+            gameTargetPositions.Add(cleanerPos);
         }
 
         // Finished calibration, play sound
@@ -154,6 +151,9 @@ public class SetupManager : MonoBehaviour
 
         // Store information to disk
         WriteInformationToDisk($"HandCalibration_{DateTime.Now:dd-MM_HH-mm-ss}.csv");
+
+        // Disable game target tracking again
+        ManageTracking.Instance.gameImageTarget.enabled = false;
     }
 
     // Method for writing sampled information to disk
@@ -166,17 +166,15 @@ public class SetupManager : MonoBehaviour
         StringBuilder sb = new StringBuilder();
 
         // Define header
-        sb.AppendLine("HeadX,HeadY,HeadZ" +
-                      "LeftWristX,LeftWristY,LeftWristZ," +
-                      "RightWristX,RightWristY,RightWristZ");
+        sb.AppendLine("HeadX,HeadY,HeadZ,CleanerX,CleanerY,CleanerZ");
 
         // Build each line of information
         for (int i = 0; i < headPositions.Count; i++)
         {
             sb.AppendLine($"{headPositions[i].x.ToString(CultureInfo.InvariantCulture)},{headPositions[i].y.ToString(CultureInfo.InvariantCulture)},{headPositions[i].z.ToString(CultureInfo.InvariantCulture)}," +
-                          $"{leftHandPositions[i].x.ToString(CultureInfo.InvariantCulture)},{leftHandPositions[i].y.ToString(CultureInfo.InvariantCulture)},{leftHandPositions[i].z.ToString(CultureInfo.InvariantCulture)}," +
+                          $"{gameTargetPositions[i].x.ToString(CultureInfo.InvariantCulture)},{gameTargetPositions[i].y.ToString(CultureInfo.InvariantCulture)},{gameTargetPositions[i].z.ToString(CultureInfo.InvariantCulture)}");
                           //$"{info.LeftWristRot.x.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.y.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.z.ToString(CultureInfo.InvariantCulture)},{info.LeftWristRot.w.ToString(CultureInfo.InvariantCulture)}," +
-                          $"{rightHandPositions[i].x.ToString(CultureInfo.InvariantCulture)},{rightHandPositions[i].y.ToString(CultureInfo.InvariantCulture)},{rightHandPositions[i].z.ToString(CultureInfo.InvariantCulture)}");
+                          //$"{rightHandPositions[i].x.ToString(CultureInfo.InvariantCulture)},{rightHandPositions[i].y.ToString(CultureInfo.InvariantCulture)},{rightHandPositions[i].z.ToString(CultureInfo.InvariantCulture)}");
         }
 
         // Write information string to file asynchronously
